@@ -1,0 +1,56 @@
+<resources>
+    <string name="app_name">ExpenseWatcher</string>
+    <string name="title_activity_dashboard">DashboardActivity</string>
+    <string name="title_activity_transaction">TransactionsActivity</string>
+    <!-- Key name for Dashboard Activity -->
+    <string name="income">Income</string>
+    <string name="expenditures">Expenditures</string>
+    <!-- Key name for transaction delete dialog -->
+    <string name="amount">Amount</string>
+    <string name="category">Category</string>
+    <string name="confirmdel">Confirm Delete</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="expensedel">Expense Deleted</string>
+    <string name="error">Error</string>
+    <!-- Key name for transaction activity -->
+    <string name="addexpense">ENTER</string>
+    <string name="entervalue">Enter Value</string>
+    <string name="expense_name">Expense name</string>
+    <string name="exit">Cancel</string>
+    <string name="details_missing">Please fill in all the details</string>
+    <!-- Key name for Charts -->
+    <string name="title_activity_pie_chart">PieChart</string>
+    <string name="analyze">Analyze</string>
+    <string name="pieChartActivity">pieChartActivity</string>
+    <string name="expenses_by_category">Expenses by Category</string>
+    <string name="expenses_per_month">Expenses by month</string>
+    <!-- Key name for Settings Fragment -->
+    <string name="configure">Configure</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="pref_language_label">Language</string>
+    <string name="notifications">Notifications</string>
+    <string name="not_summaryon">On</string>
+    <string name="not_summaryoff">Off</string>
+    <string name="pref_account_key" translatable="false">Account</string>
+    <string name="pref_account_title">Manage Accounts</string>
+    <string name="pref_account_list">accountlist</string>
+    <string name="pref_account_main" translatable="false">Main Account</string>
+    <string name="pref_account_secondary" translatable="false">Secondary Account</string>
+    <string name="pref_choose_account">Choose Account</string>
+    <!-- Key name for color preference in SharedPreferences -->
+    <string name="pref_language_key" translatable="false">language</string>
+    <!-- Value in SharedPreferences for blue color option -->
+    <string name="pref_color_blue_value" translatable="false">blue</string>
+    <!-- Value in SharedPreferences for green color option -->
+    <string name="pref_color_green_value" translatable="false">green</string>
+    <string name="pref_language_eng_label">English</string>
+    <string name="pref_language_amh_label" >Amharic</string>
+    <string name="pref_language_oromo_label" >Oromo</string>
+    <string name="pref_language_eng_value" translatable="false">English</string>
+    <string name="pref_language_amh_value" translatable="false">Amharic</string>
+    <string name="pref_language_oromo_value" translatable="false">Oromo</string>
+    <string name="analyze_expenses">Analyze Expenses</string>
+    <string name="total_expenses_per_category_name">Total Expenses per Category Name</string>
+    <string name="total_expenses_per_category_total">Total Expenses per Category Total</string>
+</resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="pref_language_option_labels">
+        <item>@string/pref_language_eng_label</item>
+        <item>@string/pref_language_amh_label</item>
+        <item>@string/pref_language_oromo_label</item>
+    </array>
+
+    <array name="pref_language_option_values">
+        <item>@string/pref_language_eng_value</item>
+        <item>@string/pref_language_amh_value</item>
+        <item>@string/pref_language_oromo_value</item>
+    </array>
+
+    <array name="pref_account_entries">
+        <item>@string/pref_account_main</item>
+        <item>@string/pref_account_secondary</item>
+    </array>
+</resources>

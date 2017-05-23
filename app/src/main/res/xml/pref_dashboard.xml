@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<ListPreference
+    android:defaultValue="@string/pref_language_eng_label"
+    android:entries="@array/pref_language_option_labels"
+    android:entryValues="@array/pref_language_option_values"
+    android:key="@string/pref_language_key"
+    android:title="@string/pref_language_label" />
+    <CheckBoxPreference
+        android:title="@string/notifications"
+        android:summaryOn="@string/not_summaryon"
+        android:summaryOff="@string/not_summaryoff"
+        />
+        <ListPreference
+        android:defaultValue="@string/pref_account_main"
+        android:entries="@array/pref_account_entries"
+        android:entryValues="@array/pref_account_entries"
+        android:key="@string/pref_account_list"
+        android:title="@string/pref_choose_account"/>
+</PreferenceScreen>
