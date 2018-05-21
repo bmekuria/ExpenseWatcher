@@ -1,20 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-<ListPreference
-    android:defaultValue="@string/pref_language_eng_label"
-    android:entries="@array/pref_language_option_labels"
-    android:entryValues="@array/pref_language_option_values"
-    android:key="@string/pref_language_key"
-    android:title="@string/pref_language_label" />
-    <CheckBoxPreference
-        android:title="@string/notifications"
-        android:summaryOn="@string/not_summaryon"
-        android:summaryOff="@string/not_summaryoff"
-        />
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="@string/title_language_settings">
         <ListPreference
-        android:defaultValue="@string/pref_account_main"
-        android:entries="@array/pref_account_entries"
-        android:entryValues="@array/pref_account_entries"
-        android:key="@string/pref_account_list"
-        android:title="@string/pref_choose_account"/>
+            android:defaultValue="@string/pref_language_eng_value"
+            android:entries="@array/pref_language_option_labels"
+            android:entryValues="@array/pref_language_option_values"
+            android:summary="%s"
+            android:key="@string/pref_language_key"
+            android:title="@string/pref_language_label"/>
+    </PreferenceCategory>
+        <CheckBoxPreference
+            android:title="@string/notifications"
+            android:summaryOn="@string/not_summaryon"
+            android:summaryOff="@string/not_summaryoff"
+            android:defaultValue="@string/not_summaryoff"
+            android:key="notifications" />
+
+    <PreferenceCategory android:title="@string/title_account_settings">
+        <ListPreference
+            android:defaultValue="@string/pref_account_main_value"
+            android:entries="@array/pref_account_labels"
+            android:summary="%s"
+            android:entryValues="@array/pref_account_entries"
+            android:key="@string/pref_account_key"
+            android:title="@string/pref_choose_account" />
+        <Preference
+            android:title="@string/title_manage_categories">
+        </Preference>
+        <Preference
+            android:title="@string/title_export">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetPackage="com.example.b.expensewatcher"
+                android:targetClass="com.example.b.expensewatcher.extendedversion"/>
+            <!--TODO Popup dialog instead -->
+        </Preference>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/title_security_settings"/>
+        <CheckBoxPreference
+            android:title="Turn Passcode"
+            android:summaryOn="@string/not_summaryon"
+            android:summaryOff="@string/not_summaryoff"
+            android:defaultValue="@string/not_summaryoff"
+            android:key="usepasscode"
+            />
+        <Preference
+            android:id="@+id/changepasscode"
+            android:title="@string/pref_title_passcode">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetPackage="com.example.b.expensewatcher"
+                android:targetClass="com.example.b.expensewatcher.ChangePasscode"/>
+        </Preference>
+    <PreferenceCategory
+        android:title="@string/title_version_info">
+            <Preference
+                android:title="@string/title_privacy_policy">
+                <intent
+                    android:action="android.intent.action.VIEW"
+                    android:targetPackage="com.example.b.expensewatcher"
+                    android:targetClass="com.example.b.expensewatcher.PrivacyPolicy"/>
+            </Preference>
+            <Preference
+            android:title="@string/title_about">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetPackage="com.example.b.expensewatcher"
+                android:targetClass="com.example.b.expensewatcher.About"/>
+            </Preference>
+            <Preference
+                android:title="@string/title_welcome_slider">
+                <intent
+                    android:action="android.intent.action.VIEW"
+                    android:targetPackage="com.example.b.expensewatcher"
+                    android:targetClass="com.example.b.expensewatcher.WelcomeActivity"/>
+            </Preference>
+    </PreferenceCategory>
+    <!-- Settings
+    Language
+1. Language (English, Amharic, Oromigna)
+    Customer Account
+2. Manage Account
+	- Choose Account
+	- Create Account (advanced)
+	- Delete Account (advanced)
+3. Manage Categories
+	- Create Category (advanced)
+	- Delete Category (advanced)
+	Security
+4. Change Passcode
+5. Notifications
+    Send com.example.b.expensewatcher.data to other devices
+6. Export Data (advanced)
+    About Us
+7. About, terms & privacy
+ -->
 </PreferenceScreen>

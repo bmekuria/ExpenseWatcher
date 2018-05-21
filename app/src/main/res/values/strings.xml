@@ -1,10 +1,13 @@
 <resources>
-    <string name="app_name">ExpenseWatcher</string>
+    <string name="app_name" translatable="false">ExpenseWatcher</string>
     <string name="title_activity_dashboard">DashboardActivity</string>
     <string name="title_activity_transaction">TransactionsActivity</string>
     <!-- Key name for Dashboard Activity -->
     <string name="income">Income</string>
     <string name="expenditures">Expenditures</string>
+    <string name="title_totalexpense">Total Expenses</string>
+    <string name="title_totalincome">Total Income</string>
+    <string name="title_remainingbalance">Net Balance</string>
     <!-- Key name for transaction delete dialog -->
     <string name="amount">Amount</string>
     <string name="category">Category</string>
@@ -16,41 +19,114 @@
     <!-- Key name for transaction activity -->
     <string name="addexpense">ENTER</string>
     <string name="entervalue">Enter Value</string>
-    <string name="expense_name">Expense name</string>
+    <string name="expense_amount">Expense Amount</string>
+    <string name="expense_name">Expense Name</string>
     <string name="exit">Cancel</string>
     <string name="details_missing">Please fill in all the details</string>
     <!-- Key name for Charts -->
-    <string name="title_activity_pie_chart">PieChart</string>
+    <string name="title_activity_pie_chart" translatable="true">Analysis</string>
     <string name="analyze">Analyze</string>
-    <string name="pieChartActivity">pieChartActivity</string>
+    <string name="pieChartActivity" translatable="false">pieChartActivity</string>
     <string name="expenses_by_category">Expenses by Category</string>
     <string name="expenses_per_month">Expenses by month</string>
     <!-- Key name for Settings Fragment -->
     <string name="configure">Configure</string>
     <string name="dashboard">Dashboard</string>
-    <string name="pref_language_label">Language</string>
+
+    <!-- PREFERENCES
+    -->
     <string name="notifications">Notifications</string>
     <string name="not_summaryon">On</string>
     <string name="not_summaryoff">Off</string>
+
     <string name="pref_account_key" translatable="false">Account</string>
     <string name="pref_account_title">Manage Accounts</string>
-    <string name="pref_account_list">accountlist</string>
-    <string name="pref_account_main" translatable="false">Main Account</string>
-    <string name="pref_account_secondary" translatable="false">Secondary Account</string>
+
+    <!-- Label name for accounts-->
+    <string name="pref_account_main_label">Main Account</string>
+    <string name="pref_account_sec_label">Secondary Account</string>
+
+    <!-- Values name for accounts-->
+    <string name="pref_account_main_value" translatable="false">MAIN_ACCOUNT</string>
+    <string name="pref_account_secondary_value" translatable="false">SECONDARY_ACCOUNT</string>
+
+    <!--- Preferences Titles -->
+    <string name="title_language_settings">LANGUAGE SETTINGS</string>
+    <string name="title_account_settings">ACCOUNT SETTINGS</string>
+    <string name="title_security_settings">SECURITY SETTINGS</string>
+    <string name="title_version_info">ABOUT ExpenseWatcher</string>
+    <string name="title_about">About</string>
+    <string name="title_manage_categories">Manage Categories</string>
+    <string name="title_export">Export to</string>
+    <string name="title_privacy_policy" translatable="false">Privacy Policy</string>
+    <string name="title_welcome_slider">Welcome Slider</string>
+
     <string name="pref_choose_account">Choose Account</string>
-    <!-- Key name for color preference in SharedPreferences -->
-    <string name="pref_language_key" translatable="false">language</string>
     <!-- Value in SharedPreferences for blue color option -->
     <string name="pref_color_blue_value" translatable="false">blue</string>
     <!-- Value in SharedPreferences for green color option -->
     <string name="pref_color_green_value" translatable="false">green</string>
-    <string name="pref_language_eng_label">English</string>
-    <string name="pref_language_amh_label" >Amharic</string>
-    <string name="pref_language_oromo_label" >Oromo</string>
-    <string name="pref_language_eng_value" translatable="false">English</string>
-    <string name="pref_language_amh_value" translatable="false">Amharic</string>
-    <string name="pref_language_oromo_value" translatable="false">Oromo</string>
+
+    <!-- Key name for language preference in SharedPreferences -->
+    <string name="pref_language_key" translatable="false">language</string>
+    <!-- Title for languages -->
+    <string name="pref_language_label">Language</string>
+
+    <!-- Label for languages -->
+    <string name="pref_language_eng_label" translatable="false">English</string>
+    <string name="pref_language_amh_label" translatable="false">አማርኛ</string>
+    <string name="pref_language_oromo_label" translatable="false">Oromiffa</string>
+    <string name="pref_language_ti_label" translatable="false">Tigrigna</string>
+    <string name="pref_language_so_label" translatable="false">Af Somali</string>
+
+    <!-- Value for languages -->
+    <string name="pref_language_eng_value" translatable="false">en</string>
+    <string name="pref_language_amh_value" translatable="false">am</string>
+    <string name="pref_language_oromo_value" translatable="false">om</string>
+    <string name="pref_language_ti_value" translatable="false">ti</string>
+    <string name="pref_language_so_value" translatable="false">so-rET</string>
+
     <string name="analyze_expenses">Analyze Expenses</string>
-    <string name="total_expenses_per_category_name">Total Expenses per Category Name</string>
-    <string name="total_expenses_per_category_total">Total Expenses per Category Total</string>
+    <string name="total_expenses_per_category_name" translatable="false">Total Expenses per Category Name</string>
+    <string name="total_expenses_per_category_total" translatable="false">Total Expenses per Category Total</string>
+
+    <string name="delete">DELETE</string>
+
+    <!-- Passcode responses -->
+    <string name="msg_correct_passcode">Correct Passcode</string>
+    <string name="msg_wrong_passcode">Wrong Passcode</string>
+    <string name="pref_key_passcode">Passcode</string>
+    <string name="pref_title_passcode">Change Passcode</string>
+    <string name="change_passcode">Change your Passcode</string>
+    <string name="enter_passcode">Enter your passcode</string>
+    <string name="enter_current_passcode">Enter Current Passcode</string>
+    <string name="enter_new_passcode">Enter New Passcode</string>
+    <string name="success">SUCCESS</string>
+    <string name="text_extendedversion">This feature will be available in the next update.</string>
+    <string name="enter_expense_header">Enter Expenses</string>
+    <string name="title_activity_paid_version">PaidVersion</string>
+    <string name="title_activity_test">test</string>
+    <string name="backagain">Press back again to exit.</string>
+
+    <string name="title_activity_welcome">Home Screen</string>
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+
+    <string name="slide_1_title">Choose Language</string>
+    <string name="slide_1_desc"></string>
+
+    <string name="slide_2_title">Dashboard View</string>
+    <string name="slide_2_desc">See all your transactions on a daily basis.</string>
+
+    <string name="slide_3_title">Category View</string>
+    <string name="slide_3_desc">It is easier to understand what you spend on when its categorized</string>
+
+    <string name="slide_4_title">Add Transaction</string>
+    <string name="slide_4_desc">Add all your expenses and categorize them</string>
+
+    <!-- TODO Welcome slider again -->
+    <string name="play_again_desc">To see the welcome slider again, goto Settings -> welcome slider -> clear data</string>
+    <string name="play_again">Play Again</string>
+
 </resources>

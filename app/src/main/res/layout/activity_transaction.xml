@@ -8,17 +8,27 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     tools:context="com.example.b.expensewatcher.TransactionActivity"
-    android:orientation="vertical"
-    android:weightSum="1">
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/transaction_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/trailRed"
+        android:textSize="22sp"
+        android:gravity="center"
+        android:text="@string/delete" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="@dimen/activity_horizontal_margin"
+        android:gravity="right"
+        android:textSize="22sp"
         android:inputType="numberDecimal"
-        android:ems="10"
-        android:id="@+id/transaction_value"
         android:hint="@string/entervalue"
-        android:gravity="center"
+        android:drawablePadding="5dp"
+        android:id="@+id/transaction_value"
         />
 
     <EditText
@@ -28,36 +38,17 @@
         android:ems="10"
         android:layout_marginTop="17dp"
         android:id="@+id/transaction_date"
+        android:drawableStart="@android:drawable/ic_menu_my_calendar"
+        android:drawableLeft="@android:drawable/ic_menu_my_calendar"
+        android:focusable="false"
         android:gravity="center"
-        android:layout_below="@+id/transaction_value"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         android:hint="dd/mm/yyyy" />
 
-    <!--Larger fonts in this listview. Note: item_category.xml is also inflated-->
-    <FrameLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/transaction_categoryList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ListView
-            android:layout_width="fill_parent"
-            android:layout_height="331dp"
-            android:layout_marginTop="47dp"
-            android:dividerHeight="10.0sp"
-            android:gravity="center"
-            android:id="@+id/transaction_categoryList"
-            android:choiceMode="singleChoice"
-            android:background="@android:color/darker_gray"
-            android:headerDividersEnabled="false"
-            android:footerDividersEnabled="false"
-            android:contextClickable="true"
-            android:textAlignment="gravity" />
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical">
+    </android.support.v7.widget.RecyclerView>
 
-        <ProgressBar
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:visibility="invisible"
-            android:id="@+id/pb_loading_addexpense"
-            android:layout_gravity="center"/>
-
-    </FrameLayout>
 </LinearLayout>

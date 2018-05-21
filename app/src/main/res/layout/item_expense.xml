@@ -1,12 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- This Layout is inflated in DashboardActivity  -->
+    <!-- A textview that displays the amount  -->
     <TextView
-        android:id="@+id/expenseName"
+        android:id="@+id/expenseAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/expense_name"
+        android:text="@string/expense_amount"
         android:gravity="center"
-        android:background="?android:attr/activatedBackgroundIndicator"/>
+        android:background="?android:attr/activatedBackgroundIndicator"
+        style="@style/TextAppearance.AppCompat.Medium"/>
+
+    <!-- An empty view for spacing out the amount and the category -->
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="0.5" />
+
+    <!-- A textview that displays the corresponding category of the amount  -->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/expenseCategory"
+        android:gravity="center"/>
 </LinearLayout>

@@ -14,7 +14,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context="com.example.b.expensewatcher.MainActivity">
+    tools:context="com.example.b.expensewatcher.pieChartActivity">
 <FrameLayout
     android:layout_width="match_parent"
     android:layout_height="400dp">
@@ -30,36 +30,10 @@
         android:layout_height="350dp"
         android:layout_marginTop="30dp"/>
 </FrameLayout>
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="350dp">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/expenses_per_month"
-            android:textSize="22dp"
-            android:id="@+id/lineCharttitle"/>
-    <com.github.mikephil.charting.charts.LineChart
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:layout_marginTop="30dp"
-        android:id="@+id/chart2" />
-    </FrameLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Expenses per Category"
-        android:textSize="22dp"
-        android:id="@+id/total_expenses_per_category_title"/>
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="350dp">
-        <ListView
+        <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:choiceMode="singleChoice"
             android:id="@+id/total_expenses_per_category_list">
-        </ListView>
-    </FrameLayout>
+        </android.support.v7.widget.RecyclerView>
 </LinearLayout>
 </ScrollView>

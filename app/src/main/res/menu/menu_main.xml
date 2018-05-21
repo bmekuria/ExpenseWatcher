@@ -3,21 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
     <item
-        android:id="@+id/menu_dashboard"
-        android:title="@string/dashboard"
+        android:id="@+id/menu_addtransaction"
+        android:title="@string/addexpense"
         android:orderInCategory="1"
-        app:showAsAction="never"  />
-
+        app:showAsAction="always" />
     <item
         android:id="@+id/menu_settings"
         android:title="@string/configure"
         android:orderInCategory="2"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/menu_analyze"
         android:title="@string/analyze_expenses"
         android:orderInCategory="3"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
 
 </menu>
