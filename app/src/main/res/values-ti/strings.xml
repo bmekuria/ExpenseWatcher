@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dashboard">ExpenseWatcher</string>
+    <string name="ok">እሺ</string>
+    <string name="cancel">" ሰርዝ"</string>
+    <string name="exit">" ሰርዝ"</string>
+    <string name="delete">ሰርዝ</string>
+    <string name="income">እቶት</string>
+    <string name="expenditures">ወጻኢ</string>
+    <string name="title_totalexpense">ጠቅላላ ወጻኢታት</string>
+    <string name="title_totalincome">ጠቅላላ ኣታዊ</string>
+    <string name="title_remainingbalance">ህሉው ዓቐን</string>
+    <string name="amount">ዓቐን</string>
+    <string name="category">መደብ</string>
+    <string name="confirmdel">መርትዖ ኣቕርብ</string>
+    <string name="addexpense">ኣእተወ</string>
+    <string name="configure">ኣማራጺታት</string>
+    <string name="details_missing">በጃኻ ኩሉ ዝርዝር ምላእ</string>
+    <string name="entervalue">ዓቐን ኣእተወ</string>
+    <string name="error">ገጋ</string>
+    <string name="expenses_by_category">መደብ ወጻኢታት</string>
+    <string name="pref_account_main_label">ዋና መፍለዪ</string>
+    <string name="pref_account_sec_label">ካልኣይ መፍለዪ</string>
+    <string name="pref_account_title">ተቘጻጸረ መፍለዪ</string>
+    <string name="pref_choose_account">መፍለዪ ምረጹ</string>
+    <string name="analyze">ኽንትንትን</string>
+    <string name="enter_expense_header">ወጻኢ ኣእተወ</string>
+    <string name="expense_amount">ዓቐን ኣእተወ</string>
+    <string name="expense_name">ስም ኣእተወ</string>
+</resources>

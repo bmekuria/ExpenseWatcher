@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "278561054252",
+    "firebase_url": "https://expensewatcher-7f86a.firebaseio.com",
+    "project_id": "expensewatcher-7f86a",
+    "storage_bucket": "expensewatcher-7f86a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:278561054252:android:7b94bb6abf0df26b",
+        "android_client_info": {
+          "package_name": "com.example.b.expensewatcher"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "278561054252-chudl29ehp0v6t73edcii1v7ed896mb6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.b.expensewatcher",
+            "certificate_hash": "acea52fa7dd480699cef6a9bac0bf8f1c1acd7bb"
+          }
+        },
+        {
+          "client_id": "278561054252-hc25a16iv5b8010r5p504mv41n3rl60o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDekZc5U0IoJTYZnZzmhju2l1U--Uag9YY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "278561054252-hc25a16iv5b8010r5p504mv41n3rl60o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

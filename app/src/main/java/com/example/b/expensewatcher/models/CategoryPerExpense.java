@@ -9,8 +9,10 @@ public class CategoryPerExpense {
     public String category_title;
     public float total_expenses_per_category;
     public float share_expenses_per_category;
+    public int colorcodes;
 
     public String getTitle() {return category_title; }
+    public float getTotal() {return total_expenses_per_category;}
 
     public float getTotal_expenses_per_category() {return total_expenses_per_category;}
 

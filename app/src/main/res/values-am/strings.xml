@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="addexpense">አስገባ</string>
+    <string name="amount">መጠን</string>
+    <string name="analyze_expenses" translatable="false">ትንታኔ</string>
+    <string name="cancel">ሰርዝ</string>
+    <string name="category">ምድብ</string>
+    <string name="change_passcode">የይለፍ ኮድ ይለውጡ</string>
+    <string name="configure">ውቅረት</string>
+    <string name="confirm_passcode">የይለፍ ኮድ ማረጋገጥ 6 ቁምፊዎች ነው</string>
+    <string name="confirmdel">ሰርዝን አረጋግጥ</string>
+    <string name="dashboard">ExpenseWatcher</string>
+    <string name="delete">ሰርዝ</string>
+    <string name="details_missing">እባክህ ሁሉንም ዝርዝሮች ሙላ</string>
+    <string name="entervalue">መጠን ያስገቡ</string>
+    <string name="error">" ስህተት"</string>
+    <string name="exit">" ሰርዝ"</string>
+    <string name="expenses_by_category">ወጪዎች በምድብ</string>
+    <string name="income">" ገቢ"</string>
+    <string name="msg_correct_passcode">ትክክለኛውን የይለፍ ቃል</string>
+    <string name="msg_wrong_passcode">የተሳሳተ የይለፍ ቃል</string>
+    <string name="new_passcode">አዲስ የይለፍ ቃል 6 ቁምፊዎች</string>
+    <string name="old_passcode">የቀድሞው የይለፍ ኮድ 6 ቁምፊዎች</string>
+    <string name="ok">እሺ</string>
+    <string name="pref_account_main_label">ዋና ሂሳብ</string>
+    <string name="pref_account_sec_label">ሁለተኛ ሂሳብ</string>
+    <string name="pref_account_title">ሂሳብ ያስተዳድሩ</string>
+    <string name="pref_choose_account">ሂሳብ ይምረጡ</string>
+    <string name="pref_title_passcode">የይለፍ ኮድ ይለውጡ</string>
+    <string name="total_expenses_per_category_name">ጠቅላላ ወጪዎች በእያንዳንዱ ምድብ</string>
+    <string name="analyze">ትንታኔ</string>
+    <string name="enter_current_passcode">የአሁኑን የይለፍ ኮድ ያስገቡ</string>
+    <string name="enter_expense_header">ወጪዎች አስገባ</string>
+    <string name="enter_new_passcode">አዲስ የይለፍ ኮድ ያስገቡ</string>
+    <string name="enter_passcode">የይለፍ ኮድዎን ያስገቡ</string>
+    <string name="expenditures">ወጪዎች</string>
+    <string name="expense_amount">የወጪ ገንዘብ መጠን</string>
+    <string name="expense_name">የወጪ ስም</string>
+    <string name="expensedel">ወጪው ተሰርዟል</string>
+    <string name="expenses_per_month">ወጪዎች በወር</string>
+    <string name="notifications">ማሳወቂያዎች</string>
+    <string name="success">ስኬት</string>
+    <string name="text_extendedversion">ይህ ባህሪ በቀጣይ ዝማኔ ላይ ይገኛል.</string>
+    <string name="title_activity_pie_chart">ትንታኔ</string>
+    <string name="title_version_info">ስሪት መረጃ</string>
+    <string name="title_security_settings">የደህንነት ቅንብሮች</string>
+    <string name="title_language_settings">የቋንቋ ቅንጅቶች</string>
+    <string name="title_account_settings">መለያ ማደራጃ</string>
+    <string name="title_manage_categories">ምድቦችን ያስተዳድሩ</string>
+    <string name="title_export">ወጪዎችን በመሣሪያ ላይ ያስቀምጡ</string>
+    <string name="title_privacy_policy">ግላዊነት መምሪያ</string>
+    <string name="title_about">ስለ ExpenseWatcher</string>
+    <string name="not_summaryon" translatable="false">ተመርጧል</string>
+    <string name="not_summaryoff" translatable="false">አልተመረጠም</string>
+    <string name="title_totalincome">ጠቅላላ ገቢ</string>
+    <string name="title_totalexpense">ጠቅላላ ወጪዎች</string>
+    <string name="pref_language_label">ቋንቋ</string>
+    <string name="title_remainingbalance">ቀሪ ሂሳብ</string>
+</resources>

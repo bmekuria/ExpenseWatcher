@@ -27,7 +27,7 @@ public class CategoryAdapter extends ArrayAdapter<Category>{
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        //Get the data item for this position
+        //Get the com.example.b.expensewatcher.data item for this position
         Category cat = getItem(position);
         //Check if an existing view is being reused, otherwise inflate the view
         ViewHolder viewHolder; //view lookup cache stored in tag
@@ -43,6 +43,7 @@ public class CategoryAdapter extends ArrayAdapter<Category>{
         }
 
         viewHolder.title.setText(cat.title);
+        viewHolder.title.setTextSize(18);
         return convertView;
     }
 }

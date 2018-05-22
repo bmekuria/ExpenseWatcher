@@ -99,7 +99,7 @@ public class SimpleFragment extends Fragment{
     }
 
     /**
-     * generates less data (1 DataSet, 4 values)
+     * generates less com.example.b.expensewatcher.data (1 DataSet, 4 values)
      * @return
      */
     protected PieData generatePieData() {

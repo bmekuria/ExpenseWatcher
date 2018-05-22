@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="total_expenses_per_category_colorcode" type="id" />
+    <item name="total_expenses_per_category_image" type="id" />
+</resources>

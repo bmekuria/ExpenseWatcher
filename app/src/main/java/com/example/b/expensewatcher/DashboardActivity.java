@@ -3,45 +3,134 @@ package com.example.b.expensewatcher;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.media.audiofx.Visualizer;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ListView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.b.expensewatcher.Utilities.DateFormatting;
 import com.example.b.expensewatcher.models.Expense;
-import com.example.b.expensewatcher.Utilities.DashboardAdapter;
 import com.example.b.expensewatcher.Utilities.DatabaseHelper;
 import com.example.b.expensewatcher.Utilities.SwipeDetector;
 
+import com.example.b.expensewatcher.data.ExpenseWatcherPreferences;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
+import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
+import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
+
+import static com.google.android.gms.ads.AdSize.BANNER;
+import static com.google.android.gms.ads.AdSize.LARGE_BANNER;
+
+
+/*
+TODO: I/Choreographer: The application may be doing too much work on its main thread.
+A SQLiteConnection object for database '/data/user/0/com.example.b.expensewatcher/databases/myexpenses.db' was leaked!  Please fix your application to end transactions in progress properly and to close the database when it is no longer needed.
+ */
+
+
 public class DashboardActivity extends AppCompatActivity{
 
-    ListView expenselist;
+    RecyclerView expenselist;
+    List<Expense> sectionedExpenses;
     TextView textViewRemainingBalance, textViewTotalIncome, textViewTotalExpense;
-    DashboardAdapter expenseAdapter;
+    SectionedRecyclerViewAdapter expenseAdapter;
     AlertDialog expenseDeleterDialog;
     int expenseToDelete = 0;
     SwipeDetector swipeDetector = new SwipeDetector();
     StringBuilder expenseMsgDel = new StringBuilder();
-    //Button buttonAnalyze;
+    private AdView mAdView;
+
+    ExpenseWatcherPreferences data;
+    public static String WHICH_ACCOUNT;
+
+    /*
+    TODO: For advanced version of Android have options from App to
+    Add Transaction - TransactionActivity
+    Analyze Transactions - PieChartActivity
+    */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        data = new ExpenseWatcherPreferences();
+        data.LoadLanguage(getBaseContext());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-        //mVisualizerView = (VisualizerView) findViewById(R.id.activity_dashboard);
-        setTitle("ExpenseWatcher");
 
+         //http://stacktips.com/tutorials/android/actionbar-with-custom-view-example-in-android
+        ActionBar mActionBar = getSupportActionBar();
+        assert mActionBar != null;
+        mActionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.shapeGreen)));
+        mActionBar.setDisplayShowHomeEnabled(false);
+        mActionBar.setDisplayShowTitleEnabled(false);
+        LayoutInflater mInflater = LayoutInflater.from(this);
+
+        //To change background of the header set the background color to mCustomView
+        View mCustomView = mInflater.inflate(R.layout.dashboard_menu, null);
+        TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.dashboard_title_header);
+        mTitleTextView.setText(R.string.app_name);
+
+        MobileAds.initialize(this,"ca-app-pub-1496600661129039~8008179970");
+        mAdView = (AdView) findViewById(R.id.adView);
+        mAdView = new AdView(this);
+        mAdView.setAdSize(LARGE_BANNER);
+        mAdView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+        try {
+            mAdView.loadAd(adRequest);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+
+        ImageButton settingsButton = (ImageButton) mCustomView
+                .findViewById(R.id.settingsButton);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(DashboardActivity.this, SettingsActivity.class));
+            }
+        });
+
+        ImageButton analyzeButton = (ImageButton) mCustomView
+                .findViewById(R.id.analyzeButton);
+        analyzeButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(DashboardActivity.this, pieChartActivity.class));
+            }
+        });
+
+
+        mActionBar.setCustomView(mCustomView);
+        mActionBar.setDisplayShowCustomEnabled(true);
+
+        //TODO: Delete transaction option e.g. button
         expenseDeleterDialog =  new AlertDialog.Builder(this).setTitle(R.string.confirmdel)
                 .setMessage(expenseMsgDel)
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -54,20 +143,19 @@ public class DashboardActivity extends AppCompatActivity{
                         }
                     }
                 })
-                .setNeutralButton(R.string.cancel, null) // don't need to do anything but dismiss here
+                .setNeutralButton(R.string.cancel, null)
                 .create();
 
 
-        //Pie Chart view of expenditures
-        expenselist = (ListView) findViewById(R.id.dashboard_expenses_list);
         textViewRemainingBalance = (TextView) findViewById(R.id.remainingbalance_textView);
         textViewTotalIncome = (TextView) findViewById(R.id.totalincome_textView);
         textViewTotalExpense = (TextView) findViewById(R.id.totalexpense_textView);
-       // buttonAnalyze = (Button) findViewById(R.id.button_analyze);
 
         //Displays all the expenses
-        new DashBoardExpenses().execute();
+        expenselist = (RecyclerView) findViewById(R.id.dashboard_expenses_list);
+        expenselist.setLayoutManager(new LinearLayoutManager(DashboardActivity.this));
 
+        new DashBoardExpenses().execute();
 
         FloatingActionButton fb = (FloatingActionButton) findViewById(R.id.fab);
         fb.setOnClickListener(new View.OnClickListener() {
@@ -76,20 +164,55 @@ public class DashboardActivity extends AppCompatActivity{
                 startActivity(new Intent(DashboardActivity.this, TransactionActivity.class));
             }
         });
+    }
 
-        /*buttonAnalyze.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(DashboardActivity.this, pieChartActivity.class));
-            }
-        });*/
+    /** Called when leaving the activity */
+    @Override
+    public void onPause() {
+        if (mAdView != null) {
+            mAdView.pause();
+        }
+        super.onPause();
+    }
+
+    /** Called when returning to the activity */
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mAdView != null) {
+            mAdView.resume();
+        }
+        new DashBoardExpenses().execute();
+    }
+
+
+    /** Called before the activity is destroyed */
+    @Override
+    public void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        new DashBoardExpenses().execute();
+    protected void onStart() {
+        super.onStart();
 
+        MobileAds.initialize(this,"ca-app-pub-1496600661129039~8008179970");
+        mAdView = (AdView) findViewById(R.id.adView);
+        mAdView = new AdView(this);
+        mAdView.setAdSize(LARGE_BANNER);
+        mAdView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+        try {
+            mAdView.loadAd(adRequest);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     /*********************************************************************************************
@@ -102,9 +225,11 @@ public class DashboardActivity extends AppCompatActivity{
             int value = 0;
             Log.d("Exp2BDel",String.valueOf(params[0]));
 
+            WHICH_ACCOUNT = data.getPreferredAccount(DashboardActivity.this);
+
             try{
                 DatabaseHelper databaseHelper = new DatabaseHelper(DashboardActivity.this);
-                value = databaseHelper.deleteExpense(databaseHelper,params[0]);
+                value = databaseHelper.deleteExpense(databaseHelper,params[0],WHICH_ACCOUNT);
                 databaseHelper.close();
 
             }
@@ -138,15 +263,18 @@ public class DashboardActivity extends AppCompatActivity{
         @Override
         protected Expense[] doInBackground(Void... params) {
             Expense[] expenseTrans = new Expense[0];
+            WHICH_ACCOUNT = data.getPreferredAccount(DashboardActivity.this);
+
             try {
                 DatabaseHelper databaseHelper = new DatabaseHelper(DashboardActivity.this);
-                expenseTrans = databaseHelper.allExpenses(databaseHelper);
+                expenseTrans = databaseHelper.allExpenses(databaseHelper, WHICH_ACCOUNT);
                 databaseHelper.close();
+                //Log.d("doInB,ExpLength",String.valueOf(expenseTrans.length));
             }
             catch(Exception e) {
                 e.printStackTrace();
             }
-            Log.d("doInB,ExpLength",String.valueOf(expenseTrans.length));
+
 
             return expenseTrans;
 
@@ -157,48 +285,162 @@ public class DashboardActivity extends AppCompatActivity{
             super.onPostExecute(expenses);
 
             DatabaseHelper db = new DatabaseHelper(DashboardActivity.this);
-            float[] calcExpenses = db.calcExpenses(db,expenses);
 
-            textViewRemainingBalance.setText(String.format("%.2f",calcExpenses[1]-calcExpenses[0]));
+            if(expenses != null) {
+                float[] calcExpenses = db.calcExpenses(db, expenses);
 
-            textViewTotalIncome.setText(R.string.income+" "+String.format("%.2f",calcExpenses[1]));
+                textViewRemainingBalance.setText(String.format("%.2f", calcExpenses[1] - calcExpenses[0]));
 
-            textViewTotalExpense.setText(R.string.expenditures+" "+String.format("%.2f",calcExpenses[0]));
+                textViewTotalIncome.setText(String.format("%.2f", calcExpenses[1]));
+                textViewTotalIncome.setTextColor(Color.GREEN);
 
-            expenseAdapter = new DashboardAdapter(DashboardActivity.this, expenses);
-            expenselist.setAdapter(expenseAdapter);
-            expenselist.setOnTouchListener(swipeDetector);
-            expenselist.setOnItemClickListener(
-                    new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            if(swipeDetector.swipeDetected()) {
-                                if(swipeDetector.getAction() == SwipeDetector.Action.RL) {
-                                    expenseToDelete = expenses[position].$id;
-                                    expenseMsgDel.append(R.string.amount+": "+expenses[position].amount)
-                                            .append("\n"+R.string.category+": "+expenses[position].category);
-                                    expenseDeleterDialog.show();
-                                }
-                            }
-                            else {
-                                Log.d("Chosen item", String.valueOf(expenses[position]));
-                                Intent intent = new Intent(DashboardActivity.this, TransactionActivity.class);
-                                intent.putExtra("id", expenses[position].$id);
-                                intent.putExtra("amount", expenses[position].amount);
-                                intent.putExtra("date", expenses[position].timestamp);
-                                intent.putExtra("category", expenses[position].category);
-                                startActivity(intent);
-                            }
-                        }
+                textViewTotalExpense.setText("-" + String.format("%.2f", calcExpenses[0]));
+                textViewTotalExpense.setTextColor(Color.RED);
+
+                expenseAdapter = new SectionedRecyclerViewAdapter();
+
+                Long date = expenses[0].timestamp;
+                DateFormatting a = new DateFormatting();
+
+                //Grouping the transactions by date
+                for (int i = 0; i < expenses.length; i++) {
+                    if (date.equals(expenses[i].timestamp) && i > 0) {
+                        i++;
+                        continue;
                     }
-            );
 
+                    date = expenses[i].timestamp;
+                    sectionedExpenses = getExpensesWithDate(date, expenses);
+
+                    if (sectionedExpenses.size() > 0) {
+                        expenseAdapter.addSection(new ExpensesSection(a.formatLongtoString(date), sectionedExpenses));
+                    }
+                }
+
+                expenselist.setAdapter(expenseAdapter);
+
+                expenselist.setOnTouchListener(swipeDetector);
+
+            }
+            else
+            {
+                textViewRemainingBalance.setText("0");
+
+                textViewTotalIncome.setText("0");
+                textViewTotalIncome.setTextColor(Color.GREEN);
+
+                textViewTotalExpense.setText("0");
+                textViewTotalExpense.setTextColor(Color.RED);
+            }
+        }
+    }
+
+    private List<Expense> getExpensesWithDate(Long date, Expense[] expenses) {
+        List<Expense> sectionedExpenses = new ArrayList<>();
+
+       for(int i = 0; i < expenses.length; i++){
+            if (date.equals(expenses[i].timestamp)) {
+                sectionedExpenses.add(expenses[i]);
+            }
+        }
+
+        return sectionedExpenses;
+    }
+
+
+    private class ExpensesSection extends StatelessSection {
+
+        String title;
+        List<Expense> list;
+
+        ExpensesSection(String title, List<Expense> list) {
+            super(new SectionParameters.Builder(R.layout.item_expense)
+                    .headerResourceId(R.layout.section_header)
+                    .build());
+
+            this.title = title;
+            this.list = list;
+        }
+
+        @Override
+        public int getContentItemsTotal() {
+            return list.size();
+        }
+
+        @Override
+        public RecyclerView.ViewHolder getItemViewHolder(View view) {
+            return new ItemViewHolder(view);
+        }
+
+        @Override
+        public void onBindItemViewHolder(RecyclerView.ViewHolder holder, final int position) {
+            final ItemViewHolder itemHolder = (ItemViewHolder) holder;
+
+            Float amount  = list.get(position).amount;
+            String category = list.get(position).category;
+
+
+            itemHolder.amount.setText(String.valueOf(amount));
+            itemHolder.category.setText(category);
+
+            itemHolder.rootView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(DashboardActivity.this, String.format("Clicked on position #%s of Section %s",
+                            expenseAdapter.getPositionInSection(itemHolder.getAdapterPosition()), title), Toast.LENGTH_SHORT).show();
+                    Log.d("Chosen item", String.valueOf(list.get(position)));
+                    Intent intent = new Intent(DashboardActivity.this, TransactionActivity.class);
+                    intent.putExtra("id", list.get(position).$id);
+                    intent.putExtra("amount", list.get(position).amount);
+                    intent.putExtra("date", list.get(position).timestamp);
+                    intent.putExtra("category", list.get(position).category);
+                    startActivity(intent);
+                }
+            });
+        }
+
+        @Override
+        public RecyclerView.ViewHolder getHeaderViewHolder(View view) {
+            return new HeaderViewHolder(view);
+        }
+
+        @Override
+        public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder) {
+            HeaderViewHolder headerHolder = (HeaderViewHolder) holder;
+
+            headerHolder.tvTitle.setText(title);
+        }
+
+        private class HeaderViewHolder extends RecyclerView.ViewHolder {
+
+            private final TextView tvTitle;
+
+            HeaderViewHolder(View view) {
+                super(view);
+
+                tvTitle = (TextView) view.findViewById(R.id.tvTitle);
+            }
+        }
+
+        private class ItemViewHolder extends RecyclerView.ViewHolder {
+
+            private final View rootView;
+            private final TextView amount;
+            private final TextView category;
+
+            ItemViewHolder(View view) {
+                super(view);
+
+                rootView = view;
+                amount = (TextView) view.findViewById(R.id.expenseAmount);
+                category = (TextView) view.findViewById(R.id.expenseCategory);
+            }
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        //getMenuInflater().inflate(R.menu.menu_main, menu);
         //getMenuInflater().inflate(R.menu.piechart, menu);
         return true;
     }
@@ -211,15 +453,48 @@ public class DashboardActivity extends AppCompatActivity{
 
         //noinspection SimplifiableIfStatement
 
+        //TODO: Delete this menu
         switch(item.getItemId()){
-            case R.id.menu_dashboard:  new DashBoardExpenses().execute(); break;
             case R.id.menu_settings: startActivity(new Intent(DashboardActivity.this, SettingsActivity.class));break;
             case R.id.menu_analyze: startActivity(new Intent(DashboardActivity.this, pieChartActivity.class)); break;
-           // case R.id.menu_register: startActivity(new Intent(DashboardActivity.this, RegisterUser.class));break;
             default: break;
         }
 
         return super.onOptionsItemSelected(item);
 
     }
+
+    private Boolean exit = false;
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+
+        expenselist.setAdapter(null);
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(exit) {
+            finish();
+        }
+        else
+        {
+            Toast.makeText(this, R.string.backagain,Toast.LENGTH_SHORT).show();
+            exit = true;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    exit = false;
+                }
+            }, 3 * 1000);
+        }
+    }
+
 }

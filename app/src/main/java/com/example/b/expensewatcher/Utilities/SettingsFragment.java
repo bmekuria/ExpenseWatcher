@@ -1,17 +1,28 @@
 package com.example.b.expensewatcher.Utilities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.preference.CheckBoxPreference;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceScreen;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.example.b.expensewatcher.DashboardActivity;
 import com.example.b.expensewatcher.R;
 
+import java.util.Locale;
+
+
 /**
- * Created by B on 11-May-17.
+ * Copied and modified from udacity course on Android Development
  */
 
 public class SettingsFragment extends PreferenceFragmentCompat implements
@@ -47,12 +58,19 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         int count = prefScreen.getPreferenceCount();
         for (int i = 0; i < count; i++) {
             Preference p = prefScreen.getPreference(i);
-            if (!(p instanceof CheckBoxPreference)) {
+           if (!(p instanceof CheckBoxPreference)) {
                 String value = sharedPreferences.getString(p.getKey(), "");
+                setPreferenceSummary(p, value);
+                if(value == "en" || value == "om" || value == "am" || value == "so-rET" || value == "ti"){
+                   // Log.d("LANG VALUE",value);
+                    setLocale(value);
+                }
+            }
+            if(p instanceof CheckBoxPreference) {
+                boolean value = sharedPreferences.getBoolean("notifications", false);
                 setPreferenceSummary(p, value);
             }
         }
-
     }
 
     // Register SettingsFragment (this) as a SharedPreferenceChangedListener in onStart
@@ -60,6 +78,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     @Override
     public void onStart() {
         super.onStart();
+
         getPreferenceScreen().getSharedPreferences()
                 .registerOnSharedPreferenceChangeListener(this);
     }
@@ -80,7 +99,45 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         if (null != preference) {
             if (!(preference instanceof CheckBoxPreference)) {
                 setPreferenceSummary(preference, sharedPreferences.getString(key, ""));
+                if(key.equals("language")){
+                    String value = sharedPreferences.getString(key, "");
+                    Log.d("LANG VALUE",value);
+                    setLocale(value);
+                }
             }
+            if(preference instanceof CheckBoxPreference) {
+                setPreferenceSummary(preference, sharedPreferences.getBoolean("notifications",false));
+            }
+        }
+    }
+
+    public void setLocale(String lang) {
+
+        Locale myLocale;
+        myLocale = new Locale(lang);
+        Locale.setDefault(myLocale);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+
+        Intent i = new Intent(getContext(), DashboardActivity.class);
+        startActivity(i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+
+        switch(lang) {
+            case "en":
+                Toast.makeText(getContext(),"Language: English",Toast.LENGTH_SHORT).show(); break;
+            case "am":
+                Toast.makeText(getContext(),"Language: Amharic",Toast.LENGTH_SHORT).show(); break;
+            case "om":
+                Toast.makeText(getContext(),"Language: Oromigna",Toast.LENGTH_SHORT).show(); break;
+            case "so-rET":
+                Toast.makeText(getContext(),"Language: Somali",Toast.LENGTH_SHORT).show(); break;
+            case "ti":
+                Toast.makeText(getContext(),"Language: Tigrigna",Toast.LENGTH_SHORT).show(); break;
+            default:
+                break;
         }
     }
 }

@@ -2,53 +2,94 @@ package com.example.b.expensewatcher;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.InputFilter;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.GridView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.b.expensewatcher.Utilities.AutoFitGridLayoutManager;
+import com.example.b.expensewatcher.Utilities.DecimalDigitsInputFilter;
+import com.example.b.expensewatcher.Utilities.RecyclerViewCategoryAdapter;
 import com.example.b.expensewatcher.models.Category;
 import com.example.b.expensewatcher.models.Expense;
 import com.example.b.expensewatcher.Utilities.CategoryAdapter;
 import com.example.b.expensewatcher.Utilities.DatabaseHelper;
 import com.example.b.expensewatcher.Utilities.DateFormatting;
 
-import java.util.Arrays;
 import java.util.Calendar;
 
-public class TransactionActivity extends AppCompatActivity {
+import com.example.b.expensewatcher.data.ExpenseWatcherPreferences;
+import com.example.b.expensewatcher.models.RecyclerViewCategory;
+
+public class TransactionActivity extends AppCompatActivity implements RecyclerViewCategoryAdapter.ItemListener {
 
     private int year, month, day;
     EditText transaction_amount, transaction_date;
+    TextView transaction_delete;
     Expense newExpense = new Expense();
     String chosen_category;
-    Category[] categories;
-    ListView categorylist;
-    ProgressBar mLoadingIndicator;
+    RecyclerViewCategory[] categories;
+    RecyclerView categorylist;
+    ExpenseWatcherPreferences data;
+
+    public static String WHICH_ACCOUNT;
+
+    @Override
+    public void onItemClick(RecyclerViewCategory item) {
+        chosen_category = item.title;
+        Toast.makeText(this,item.title,Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-        setTitle("Enter Expenses");
+
+        //TODO: Set title to center
+        //setTitle(getString(R.string.enter_expense_header));
+
+        data = new ExpenseWatcherPreferences();
+        ActionBar mActionBar = getSupportActionBar();
+        assert mActionBar != null;
+        mActionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.shapeGreen)));
+        mActionBar.setDisplayShowHomeEnabled(false);
+        mActionBar.setDisplayShowTitleEnabled(false);
+        LayoutInflater mInflater = LayoutInflater.from(this);
+
+        //Set Header
+        View mCustomView = mInflater.inflate(R.layout.transaction_menu, null);
+        TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.enter_expense_text);
+        mTitleTextView.setText(R.string.enter_expense_header);
 
         //Find all the existing views
+        transaction_delete = (TextView) findViewById(R.id.transaction_delete);
+        transaction_delete.setVisibility(View.GONE);
+
         transaction_amount = (EditText) findViewById(R.id.transaction_value);
         transaction_date = (EditText) findViewById(R.id.transaction_date);
-        categorylist = (ListView) findViewById(R.id.transaction_categoryList);
+        categorylist = (RecyclerView) findViewById(R.id.transaction_categoryList);
+
+        //Setting integer and decimal limits. Currently set at 10 integers and 2 decimals
+        transaction_amount.setFilters(new InputFilter[]
+                {new DecimalDigitsInputFilter(10,2)});
 
         //Setup the calendar
         final Calendar c = Calendar.getInstance();
@@ -56,7 +97,7 @@ public class TransactionActivity extends AppCompatActivity {
         month = c.get(Calendar.MONTH);
         day = c.get(Calendar.DAY_OF_MONTH);
 
-        //Set amount and date to the transaction that is to be updated.
+        //In case of an update transaction, set amount and date to the transaction that is to be updated.
         Intent mIntent = getIntent();
         if(mIntent.getExtras() != null) {
             transaction_amount.setText(String.format("%.2f",mIntent.getFloatExtra("amount",0)));
@@ -74,13 +115,10 @@ public class TransactionActivity extends AppCompatActivity {
                 }
             }
 
-            Log.d("mIntent id", String.valueOf(mIntent.getIntExtra("id",0)));
-            Log.d("mIntent Amount", String.valueOf(mIntent.getFloatExtra("amount",0)));
-            Log.d("mIntent Date", String.valueOf(new StringBuilder().append(datearray[0]).append(datearray[1]).append(datearray[2])));
-            Log.d("mIntent Category", String.valueOf(mIntent.getStringExtra("category")));
         }
         else
         {
+            //If not an update, set the date to the current date
             transaction_date.setText(new StringBuilder().append(day).
                     append("/").append(month+1).append("/").append(year).append(" "));
         }
@@ -97,16 +135,6 @@ public class TransactionActivity extends AppCompatActivity {
             }
         };
 
-       /* transaction_date.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                new DatePickerDialog(TransactionActivity.this, date, c.get(Calendar.YEAR),
-                        c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
-
-               return false;
-            }
-        });
-        */
         //Allows the user to click on the date field and set the date.
         transaction_date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,35 +150,20 @@ public class TransactionActivity extends AppCompatActivity {
         categories = databasehelper.allCategories(databasehelper);
 
         //Populate listview with all categories
-        CategoryAdapter allcategories = new CategoryAdapter(TransactionActivity.this, categories);
+        final RecyclerViewCategoryAdapter allcategories = new RecyclerViewCategoryAdapter(TransactionActivity.this, categories, this);
         categorylist.setAdapter(allcategories);
-        categorylist.setOnItemClickListener(
-                new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        chosen_category = categories[position].title;
-                    }
-                }
-        );
 
-        //DONE: Set selection in listview
+
+        AutoFitGridLayoutManager layoutManager = new AutoFitGridLayoutManager(this, 200);
+        categorylist.setLayoutManager(layoutManager);
+        categorylist.setBackgroundColor(getResources().getColor(R.color.cardview_light_background));
+        categorylist.setHasFixedSize(true);
+
+
+        //To highlight the particular category
         if(mIntent.getExtras() != null) {
-
-            int position = 0;
-            for(Category a : categories) {
-
-                if(a.title.equals(mIntent.getStringExtra("category")))
-                break;
-
-                position++;
-
-            }
-            categorylist.setItemChecked(position, true);
             chosen_category = mIntent.getStringExtra("category");
         }
-
-        mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_addexpense);
-
     }
 
     public void displayResults(Boolean response) {
@@ -176,7 +189,6 @@ public class TransactionActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mLoadingIndicator.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -186,14 +198,14 @@ public class TransactionActivity extends AppCompatActivity {
                 return null;
             }
 
-            Log.d("Expense date",params[0].trim());
-            Log.d("Expense amount", String.valueOf(Float.valueOf(params[1])));
-            Log.d("Expense category", params[2]);
+            //Refer to the MAIN or SECONDARY ACCOUNT
+            WHICH_ACCOUNT = data.getPreferredAccount(TransactionActivity.this);
 
             //Assign the new details to object of class Expense.
             newExpense.amount = Float.valueOf(params[1]);
             newExpense.category = params[2];
 
+            //Change the date format
             DateFormatting df = new DateFormatting();
             try{
 
@@ -204,13 +216,9 @@ public class TransactionActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            Log.d("AMOUNT", String.valueOf(newExpense.amount));
-            Log.d("Category",newExpense.category);
-            Log.d("Date",String.valueOf(newExpense.timestamp));
-
             //Call the createExpense function in the DatabaseHelper class
             DatabaseHelper databaseHelper = new DatabaseHelper(TransactionActivity.this);
-            boolean response = databaseHelper.createExpense (databaseHelper, newExpense);
+            boolean response = databaseHelper.createExpense (databaseHelper, newExpense, WHICH_ACCOUNT);
 
             return response;
         }
@@ -218,14 +226,13 @@ public class TransactionActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
-            mLoadingIndicator.setVisibility(View.INVISIBLE);
             displayResults(aBoolean);
 
         }
     }
 
     /*
-        UPDATES THE EXISTING EXPENSE. VARIABLES USED ARE ID, AMOUNT, DATE AND CATEGORY. TODO: ADD DETAILS
+        UPDATE THE EXISTING EXPENSE. VARIABLES USED ARE ID, AMOUNT, DATE AND CATEGORY. TODO: ADD DETAILS
      */
     public class updateExpense extends AsyncTask<String, Void, Boolean> {
 
@@ -235,11 +242,7 @@ public class TransactionActivity extends AppCompatActivity {
                 return null;
             }
 
-
-            Log.d("UpdateExpID",params[0]);
-            Log.d("UpdateExpDate",params[1]);
-            Log.d("UpdateExpAmount", String.valueOf(Float.valueOf(params[2])));
-            Log.d("UpdateExpCat", params[3]);
+            WHICH_ACCOUNT = data.getPreferredAccount(TransactionActivity.this);
 
             DateFormatting df = new DateFormatting();
             try{
@@ -256,13 +259,9 @@ public class TransactionActivity extends AppCompatActivity {
             newExpense.amount = Float.valueOf(params[2]);
             newExpense.category = params[3];
 
-            Log.d("UpdateExpAmount2", String.valueOf(newExpense.amount));
-            Log.d("UpdateExpCat2",newExpense.category);
-            Log.d("UpdateExpDate2",String.valueOf(newExpense.timestamp));
-
             //Call the createExpense function in the DatabaseHelper file
             DatabaseHelper databaseHelper = new DatabaseHelper(TransactionActivity.this);
-            boolean response = databaseHelper.updateExpense (databaseHelper, newExpense);
+            boolean response = databaseHelper.updateExpense (databaseHelper, newExpense, WHICH_ACCOUNT);
 
             return response;
 
@@ -279,7 +278,6 @@ public class TransactionActivity extends AppCompatActivity {
     //TODO: Move the 'Cancel' option to the left hand side.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.exit,menu);
         getMenuInflater().inflate(R.menu.addexpense ,menu);
         //getMenuInflater().inflate(R.menu.menu_main,menu);
         return true;
@@ -290,32 +288,36 @@ public class TransactionActivity extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.action_addexpense:
-                if(!transaction_amount.getText().toString().equals(null) || !chosen_category.equals(null) || !transaction_date.getText().toString().equals(null)) {
+
+                boolean emptyAmount = TextUtils.isEmpty(transaction_amount.getText().toString());
+                boolean emptyCategory = TextUtils.isEmpty(chosen_category);
+                boolean emptyDate = TextUtils.isEmpty(transaction_date.getText().toString());
+
+                //Check if variables are empty, if not add expense.
+                if(!emptyAmount && !emptyCategory && !emptyDate) {
                     Intent mIntent = getIntent();
                     if(mIntent.getExtras() == null) {
+                        transaction_delete.setVisibility(TextView.INVISIBLE);
                         new addExpense().execute(transaction_date.getText().toString(), transaction_amount.getText().toString(), chosen_category);
                         transaction_amount.setText(null);
                         transaction_amount.setHint(R.string.entervalue);
+
                         // Clear the choices in the ListView categorylist
-                        categorylist.setItemChecked(categorylist.getSelectedItemPosition(),false);
+                        //TODO (RecyclerView): categorylist.setItemChecked(categorylist.getSelectedItemPosition(),false);
                     }
-                    else
-                        new updateExpense().execute(String.valueOf(mIntent.getIntExtra("id",0)), transaction_date.getText().toString(), transaction_amount.getText().toString(), chosen_category);
+                    else {
+                        transaction_delete.setVisibility(View.VISIBLE);
+                        new updateExpense().execute(String.valueOf(mIntent.getIntExtra("id", 0)), transaction_date.getText().toString(), transaction_amount.getText().toString(), chosen_category);
+                    }
                 }
                 else {
                     Toast.makeText(this, R.string.details_missing, Toast.LENGTH_SHORT).show();
                 }
                 break;
-            case R.id.action_exit:
-                //TODO: Close TransactionAct and refresh DashboardActivity
-                NavUtils.navigateUpFromSameTask(TransactionActivity.this);
-                break;
             case R.id.home:
                 NavUtils.navigateUpFromSameTask(TransactionActivity.this);
                 break;
-           /* case R.id.menu_dashboard:
-                Toast.makeText(TransactionActivity.this,"More options coming...",Toast.LENGTH_LONG).show();
-                break;
+           /*
             case R.id.menu_settings:
                 Toast.makeText(TransactionActivity.this,"More options coming...",Toast.LENGTH_LONG).show();
                 break;*/

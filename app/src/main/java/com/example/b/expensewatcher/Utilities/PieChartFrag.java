@@ -36,14 +36,15 @@ public class PieChartFrag extends com.example.b.expensewatcher.Utilities.SimpleF
         View v = inflater.inflate(R.layout.frag_simple_pie, container, false);
 
         mChart = (PieChart) v.findViewById(R.id.pieChart1);
-        mChart.getDescription().setEnabled(false);
+
+        //mChart.getDescription().setEnabled(false);
 
         tf = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Light.ttf");
 
 
         mChart.setCenterTextTypeface(tf);
         mChart.setCenterText(generateCenterText());
-        mChart.setCenterTextSize(10f);
+        //mChart.setCenterTextSize(10f);
         mChart.setCenterTextTypeface(tf);
 
         // radius of the center hole in percent of maximum radius

@@ -22,19 +22,21 @@ public class DashboardAdapter extends ArrayAdapter<Expense> {
 
     private static class ViewHolder {
         TextView title;
+        TextView category;
     }
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        //Get the data item for this position
+        //Get the com.example.b.expensewatcher.data item for this position
         Expense exp = getItem(position);
         ViewHolder viewHolder;
 
         if(convertView == null) {
             viewHolder = new ViewHolder();
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_expense,parent,false);
-            viewHolder.title = (TextView) convertView.findViewById(R.id.expenseName);
+            viewHolder.title = (TextView) convertView.findViewById(R.id.expenseAmount);
+            viewHolder.category = (TextView) convertView.findViewById(R.id.expenseCategory);
             convertView.setTag(viewHolder);
         }
         else
@@ -42,11 +44,11 @@ public class DashboardAdapter extends ArrayAdapter<Expense> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        //StringBuilder exp_info = new StringBuilder();
-        //exp_info.append(exp.amount).append(" ").append(exp.category);
         if(exp != null) {
-            viewHolder.title.setText(new StringBuilder().append(String.format("%.2f",exp.amount)).append(" ").append(exp.category));
+            viewHolder.title.setText(String.format("%.2f",exp.amount));
             viewHolder.title.setTextSize(22);
+            viewHolder.category.setText(exp.category);
+            viewHolder.category.setTextSize(22);
         }
         return convertView;
     }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dashboard">ExpenseWatcher</string>
+    <string name="income">GALII</string>
+    <string name="ok">TOLE</string>
+    <string name="cancel">HAQI</string>
+    <string name="exit">HAQI</string>
+    <string name="delete">BALLEESSI</string>
+    <string name="title_totalexpense">OROMIFFA TOTAL EXP</string>
+    <string name="title_totalincome">OROMIFFA TOTAL INC</string>
+</resources>
