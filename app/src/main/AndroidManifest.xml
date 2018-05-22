@@ -24,11 +24,7 @@
             android:name=".TransactionActivity"
             android:label="TransactionActivity"
             android:launchMode="singleTask"
-            android:parentActivityName=".DashboardActivity"
             android:screenOrientation="portrait">
-            <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".DashboardActivity" />
         </activity>
 
         <activity
@@ -50,7 +46,7 @@
                 android:value=".DashboardActivity" />
         </activity>
         <activity
-            android:name=".Categorybased"
+            android:name=".CategorybasedActivity"
             android:label="Categorybased"
             android:launchMode="singleTask"
             android:parentActivityName=".pieChartActivity"
