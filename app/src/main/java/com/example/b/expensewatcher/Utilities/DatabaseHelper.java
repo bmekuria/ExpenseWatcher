@@ -14,7 +14,9 @@ import com.example.b.expensewatcher.models.Expense;
 import com.example.b.expensewatcher.models.RecyclerViewCategory;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 
 
 /**
@@ -42,7 +44,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         String CREATE_TABLE_MAIN_ACCOUNT = "CREATE TABLE IF NOT EXISTS MAIN_ACCOUNT("+
                 "_id INTEGER PRIMARY KEY, "+
                 "amount INTEGER NOT NULL, "+
-                "timestamp INTEGER NOT NULL, "+
+                "timestamp DATE NOT NULL, "+
                 "category TEXT NOT NULL, " +
                 "details TEXT "+
                 ")";
@@ -50,7 +52,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         String CREATE_TABLE_SECONDARY_ACCOUNT = "CREATE TABLE IF NOT EXISTS SECONDARY_ACCOUNT("+
                 "_id INTEGER PRIMARY KEY, "+
                 "amount INTEGER NOT NULL, "+
-                "timestamp INTEGER NOT NULL, "+
+                "timestamp DATE NOT NULL, "+
                 "category TEXT NOT NULL, " +
                 "details TEXT "+
                 ")";
@@ -122,8 +124,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             Log.d("OnUpgrade", "OnUpgrade called");
            // db.close();
         }
-        else
+        else {
             onCreate(db);
+        }
     }
 
     /*
@@ -169,19 +172,17 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         if(newExpense.amount != null && newExpense.category != null && newExpense.timestamp != null) {
             cv.put("amount", newExpense.amount);
-            cv.put("timestamp", newExpense.timestamp);
+            cv.put("timestamp", String.valueOf(newExpense.timestamp));
             cv.put("category", newExpense.category);
             //cv.put("details", newExpense.details);
 
             sq.insert(ACCOUNT, null, cv);
 
             Log.d("SAVETRANSACTION", "Transaction added" + newExpense.amount);
-           // db.close();
             return true;
         }
         else
         {
-            //db.close();
             return false;
         }
     }
@@ -200,11 +201,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             cv.put("title", item);
             sq.insert("Category", null, cv);
             Log.d("SAVECATEGORY", ""+item);
-            //db.close();
             return true;
         }
         else {
-            //db.close();
             return false;
         }
 
@@ -251,19 +250,24 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     /*
-    Provide a list of all categories of expenses with their respective total sums.
+     Provide a list of all expenses per category per requested month-year
      */
-    public Expense[] allExpensesperCategory(DatabaseHelper db, String categoryname, String ACCOUNT) {
+
+    public Expense[] MonthExpenseperCategory(DatabaseHelper db, String categoryname, String monthyear, String ACCOUNT) {
         SQLiteDatabase sq = db.getReadableDatabase();
         Expense[] expenses = null;
         Cursor mCursor = null;
-        String query = "SELECT * FROM "+ACCOUNT+" WHERE category=?";
+        String month = "\""+monthyear.substring(0,3)+"\"";
+        String year = "\""+monthyear.substring(4,8)+"\"";
+        categoryname = "\""+categoryname+"\"";
+        String query = "SELECT * FROM "+ACCOUNT+" " +
+                "WHERE category = "+categoryname+" AND substr(timestamp,5,3)= "+month+
+                " AND substr(timestamp,31,4) = "+year+
+                " ORDER BY timestamp DESC";
 
         try {
-            //may cause a problem
             mCursor = sq.rawQuery(
-                    query,
-                    new String[]{categoryname});
+                    query, null);
         }
         catch(Exception e){
             e.printStackTrace();
@@ -271,7 +275,70 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         if(mCursor != null) {
 
-            Log.d("Count", String.valueOf(mCursor.getCount()));
+            try{
+
+                expenses = new Expense[mCursor.getCount()];
+                if(mCursor.moveToFirst()) {
+
+                    for (int i = 0; i < mCursor.getCount(); i++) {
+
+                        expenses[i] = new Expense();
+                        expenses[i].$id = mCursor.getInt(0);
+                        expenses[i].amount = mCursor.getFloat(1);
+                        expenses[i].timestamp = new DateFormatting().
+                                formatStringtoDate ("cleanup",mCursor.getString(2));
+                        expenses[i].category = mCursor.getString(3);
+
+                        mCursor.moveToNext();
+                    }
+                }
+                mCursor.close();
+
+            }catch(Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
+
+
+        return expenses;
+        }
+
+    /*
+    Provide a list of all the sum of monthly expenses per requested category.
+     */
+    public Expense[] allMonthlyExpensesperCategory(DatabaseHelper db, String categoryname, String ACCOUNT) {
+        SQLiteDatabase sq = db.getReadableDatabase();
+        Expense[] expenses = null;
+        Cursor mCursor = null;
+        String query = "SELECT SUM(amount), category, substr(timestamp,5,3), substr(timestamp,31,4)FROM "+ACCOUNT+
+            " WHERE Category = ? GROUP BY substr(timestamp,31,4),"+
+            "(CASE when substr(timestamp,5,3) = ? then 12"+
+                " when substr(timestamp,5,3) = ? then 11"+
+                " when substr(timestamp,5,3) = ? then 10"+
+                " when substr(timestamp,5,3) = ? then 9"+
+                " when substr(timestamp,5,3) = ? then 8"+
+                " when substr(timestamp,5,3) = ? then 7"+
+                " when substr(timestamp,5,3) = ? then 6"+
+                " when substr(timestamp,5,3) = ? then 5"+
+                " when substr(timestamp,5,3) = ? then 4"+
+                " when substr(timestamp,5,3) = ? then 3"+
+                " when substr(timestamp,5,3) = ? then 2"+
+                " when substr(timestamp,5,3) = ? then 1 end)";
+
+        try {
+
+            mCursor = sq.rawQuery(
+                    query,
+                    new String[]{categoryname,"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"});
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+
+        if(mCursor != null) {
+
             try{
                 expenses = new Expense[mCursor.getCount()];
                 if(mCursor.moveToFirst()) {
@@ -279,21 +346,13 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                     for(int i = 0; i < mCursor.getCount(); i++) {
 
                         expenses[i] = new Expense();
-                        expenses[i].$id = mCursor.getInt(0);
-                        expenses[i].amount = mCursor.getFloat(1);
-                        expenses[i].category = mCursor.getString(3);
-
-                        try {
-                            expenses[i].timestamp = Long.parseLong(mCursor.getString(2));
-                        }
-                        catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                        expenses[i].amount = mCursor.getFloat(0);
+                        expenses[i].category = mCursor.getString(1);
+                        expenses[i].monthyear = mCursor.getString(2) + " "
+                                + mCursor.getString(3);
 
                         mCursor.moveToNext();
-
                     }
-
                 }
                 mCursor.close();
             }
@@ -302,21 +361,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             }
         }
 
-        Arrays.sort(expenses, new Comparator<Expense>() {
-                    @Override
-                    public int compare(Expense lhs, Expense rhs) {
-
-                        if(lhs.timestamp < rhs.timestamp)
-                        return 1;
-                        else if(lhs.timestamp > rhs.timestamp)
-                            return -1;
-                        else
-                            return 0;
-
-                    }
-                });
-
-        mCursor.close();
         return expenses;
 
     }
@@ -325,7 +369,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         SQLiteDatabase sq = db.getReadableDatabase();
         Expense[] expenses = null;
         Cursor mCursor = null;
-        String query = "SELECT * FROM "+ACCOUNT+" ORDER BY timestamp DESC";
+        String query = "SELECT * FROM "+ACCOUNT;
 
         try {
             //may cause a problem
@@ -344,12 +388,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 expenses = new Expense[mCursor.getCount()];
 
                     for(int i = 0; i < mCursor.getCount(); i++) {
-                        /*
-                        Log.d("ALLEXP, ID", String.valueOf(mCursor.getInt(0)));
+
+                        /*Log.d("DH, ALLEXP, ID", String.valueOf(mCursor.getInt(0)));
                         Log.d("AMOUNT", String.valueOf(mCursor.getFloat(1)));
-                        Log.d("TIMESTAMP", mCursor.getString(2));
                         Log.d("CATEGORY", mCursor.getString(3));
-                        */
+                        Log.d("TIMESTAMP", mCursor.getString(2));*/
 
                         expenses[i] = new Expense();
                         expenses[i].$id = mCursor.getInt(0);
@@ -357,7 +400,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                         expenses[i].category = mCursor.getString(3);
 
                         try {
-                            expenses[i].timestamp = Long.parseLong(mCursor.getString(2));
+                            expenses[i].timestamp = new DateFormatting().formatStringtoDate("notTran",mCursor.getString(2));
                         }
                         catch (Exception e) {
                             e.printStackTrace();
@@ -378,6 +421,18 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             return null;
         }
 
+        Arrays.sort(expenses, new Comparator<Expense>() {
+            @Override
+            public int compare(Expense o1, Expense o2) {
+                if ((o1.timestamp).getTime() > (o2.timestamp).getTime())
+                    return -1;
+                else if ((o1.timestamp).getTime() < (o2.timestamp).getTime())
+                    return 1;
+                else
+                    return 0;
+            }
+        });
+
         return expenses;
     }
 
@@ -396,7 +451,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             value = 0;
         }
 
-        //db.close();
         return value;
     }
 
@@ -408,7 +462,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         if(newExpense.amount != null && newExpense.category != null && newExpense.timestamp != null) {
 
             cv.put("amount", newExpense.amount);
-            cv.put("timestamp", newExpense.timestamp);
+            cv.put("timestamp", String.valueOf(newExpense.timestamp));
             cv.put("category", newExpense.category);
 
             sq.update(ACCOUNT, cv, "_id=?", new String[]{Integer.toString(newExpense.$id)} );
@@ -458,7 +512,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return totalcal;
     }
 
-    
     public CategoryPerExpense[] pieChartCalc(DatabaseHelper db, Expense[] expenses, String ACCOUNT) {
 
         CategoryPerExpense[] categoricalexpenses = new CategoryPerExpense[0];
@@ -484,11 +537,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
              */
             //Find all the categories that have been used
             for(count_category = 0; count_category < mCursor.getCount(); count_category++, mCursor.moveToNext()) {
-
                     categoricalexpenses[count_category] = new CategoryPerExpense();
                     categoricalexpenses[count_category].category_title = mCursor.getString(0);
-                    Log.d("CATEXPLIST", categoricalexpenses[count_category].category_title);
-
             }
 
             //Sum up the expense for each category
@@ -501,17 +551,22 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
                    if(categoricalexpenses[a].category_title.equals(expenses[b].category)) {
                        catsumexp += expenses[b].amount;
-                       totalexp += catsumexp;
                    }
 
                 }
+               totalexp += catsumexp;
                categoricalexpenses[a].total_expenses_per_category = catsumexp;
+
             }
 
             //Calculate how much each category is of the sum of all expenses
-            for(int a = 0; a < count_category; a++)
+            for(int a = 0; a < count_category; a++) {
                 categoricalexpenses[a].share_expenses_per_category = Float.valueOf(categoricalexpenses[a].total_expenses_per_category) / totalexp;
-
+                /*Log.d("CAT EXP: Name: ", categoricalexpenses[a].category_title);
+                Log.d("CAT EXP: Share: ", String.valueOf(categoricalexpenses[a].share_expenses_per_category));
+                Log.d("CAT EXP: Total: ", String.valueOf(categoricalexpenses[a].total_expenses_per_category));
+                Log.d("CAT EXP: TOTAL EXP: ",String.valueOf(totalexp));*/
+            }
         }
 
 
@@ -531,12 +586,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         mCursor.close();
         return categoricalexpenses;
-    }
-
-    public String[][] lineChartCalc(DatabaseHelper db, Expense[] expenses) {
-
-        String[][] totalexpensesbymonth = new String[0][2];
-        return totalexpensesbymonth;
     }
 
 }

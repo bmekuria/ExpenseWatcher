@@ -1,9 +1,7 @@
 package com.example.b.expensewatcher.Utilities;
 
         import android.content.Context;
-        import android.graphics.drawable.Drawable;
         import android.support.v7.widget.RecyclerView;
-        import android.util.Log;
         import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
@@ -80,10 +78,12 @@ public class RecyclerViewCategoryAdapter extends RecyclerView.Adapter<RecyclerVi
     public void onBindViewHolder(RecyclerViewCategoryAdapter.ViewHolder holder, int position) {
         holder.setData(mValues[position]);
 
+        int color = mContext.getResources().getColor(R.color.backgroundGreen);
         //Highlight the chosen category
         if(selected_position == position) {
-            holder.relativeLayout.setBackgroundColor(mContext.getResources().getColor(R.color.backgroundGreen));
-        }else{
+            holder.relativeLayout.setBackgroundColor(color);
+        }
+        else{
             holder.relativeLayout.setBackgroundColor(mContext.getResources().getColor(R.color.transparent));
         }
     }

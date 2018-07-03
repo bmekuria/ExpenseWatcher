@@ -1,7 +1,5 @@
 package com.example.b.expensewatcher;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -23,9 +21,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.b.expensewatcher.Utilities.DateFormatting;
+import com.example.b.expensewatcher.Utilities.PrefManager;
 import com.example.b.expensewatcher.models.Expense;
 import com.example.b.expensewatcher.Utilities.DatabaseHelper;
-import com.example.b.expensewatcher.Utilities.SwipeDetector;
 
 import com.example.b.expensewatcher.data.ExpenseWatcherPreferences;
 import com.google.android.gms.ads.AdRequest;
@@ -33,13 +31,13 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
 
-import static com.google.android.gms.ads.AdSize.BANNER;
 import static com.google.android.gms.ads.AdSize.LARGE_BANNER;
 
 
@@ -55,17 +53,13 @@ public class DashboardActivity extends AppCompatActivity{
     List<Expense> sectionedExpenses;
     TextView textViewRemainingBalance, textViewTotalIncome, textViewTotalExpense;
     SectionedRecyclerViewAdapter expenseAdapter;
-    AlertDialog expenseDeleterDialog;
-    int expenseToDelete = 0;
-    SwipeDetector swipeDetector = new SwipeDetector();
-    StringBuilder expenseMsgDel = new StringBuilder();
     private AdView mAdView;
 
     ExpenseWatcherPreferences data;
     public static String WHICH_ACCOUNT;
 
     /*
-    TODO: For advanced version of Android have options from App to
+    TODO: For advanced version of Android have options from home screen to (Android 8)
     Add Transaction - TransactionActivity
     Analyze Transactions - PieChartActivity
     */
@@ -130,23 +124,6 @@ public class DashboardActivity extends AppCompatActivity{
         mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowCustomEnabled(true);
 
-        //TODO: Delete transaction option e.g. button
-        expenseDeleterDialog =  new AlertDialog.Builder(this).setTitle(R.string.confirmdel)
-                .setMessage(expenseMsgDel)
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        if (expenseToDelete != 0) {
-                            new deleteExpense().execute(expenseToDelete);
-                            new DashBoardExpenses().execute();
-                            expenseToDelete = 0;
-                        }
-                    }
-                })
-                .setNeutralButton(R.string.cancel, null)
-                .create();
-
-
         textViewRemainingBalance = (TextView) findViewById(R.id.remainingbalance_textView);
         textViewTotalIncome = (TextView) findViewById(R.id.totalincome_textView);
         textViewTotalExpense = (TextView) findViewById(R.id.totalexpense_textView);
@@ -164,6 +141,8 @@ public class DashboardActivity extends AppCompatActivity{
                 startActivity(new Intent(DashboardActivity.this, TransactionActivity.class));
             }
         });
+
+        checkWelcomeSlider();
     }
 
     /** Called when leaving the activity */
@@ -183,6 +162,14 @@ public class DashboardActivity extends AppCompatActivity{
             mAdView.resume();
         }
         new DashBoardExpenses().execute();
+        checkWelcomeSlider();
+    }
+
+    public void checkWelcomeSlider(){
+        boolean check = new PrefManager(getBaseContext()).isFirstTimeLaunch();
+        if(check){
+            startActivity(new Intent(DashboardActivity.this,WelcomeActivity.class));
+        }
     }
 
 
@@ -215,45 +202,6 @@ public class DashboardActivity extends AppCompatActivity{
         }
     }
 
-    /*********************************************************************************************
-     DELETE EXPENSE
-     */
-    private class deleteExpense extends AsyncTask<Integer, Void, Integer> {
-
-        @Override
-        protected Integer doInBackground(Integer... params) {
-            int value = 0;
-            Log.d("Exp2BDel",String.valueOf(params[0]));
-
-            WHICH_ACCOUNT = data.getPreferredAccount(DashboardActivity.this);
-
-            try{
-                DatabaseHelper databaseHelper = new DatabaseHelper(DashboardActivity.this);
-                value = databaseHelper.deleteExpense(databaseHelper,params[0],WHICH_ACCOUNT);
-                databaseHelper.close();
-
-            }
-            catch(Exception e){
-                e.printStackTrace();
-            }
-
-            return  value;
-        }
-
-        @Override
-        protected void onPostExecute(Integer i) {
-            super.onPostExecute(i);
-
-            if(i != 0) {
-                Toast.makeText(DashboardActivity.this,R.string.expensedel,Toast.LENGTH_LONG).show();
-            }
-            else
-            {
-                Toast.makeText(DashboardActivity.this,R.string.error,Toast.LENGTH_LONG).show();
-
-            }
-        }
-    }
 
     /**********************************************************************************************
      * DISPLAY ALL THE EXPENSES ON THE DASHBOARD
@@ -269,7 +217,6 @@ public class DashboardActivity extends AppCompatActivity{
                 DatabaseHelper databaseHelper = new DatabaseHelper(DashboardActivity.this);
                 expenseTrans = databaseHelper.allExpenses(databaseHelper, WHICH_ACCOUNT);
                 databaseHelper.close();
-                //Log.d("doInB,ExpLength",String.valueOf(expenseTrans.length));
             }
             catch(Exception e) {
                 e.printStackTrace();
@@ -288,6 +235,7 @@ public class DashboardActivity extends AppCompatActivity{
 
             if(expenses != null) {
                 float[] calcExpenses = db.calcExpenses(db, expenses);
+                db.close();
 
                 textViewRemainingBalance.setText(String.format("%.2f", calcExpenses[1] - calcExpenses[0]));
 
@@ -299,13 +247,11 @@ public class DashboardActivity extends AppCompatActivity{
 
                 expenseAdapter = new SectionedRecyclerViewAdapter();
 
-                Long date = expenses[0].timestamp;
-                DateFormatting a = new DateFormatting();
+               Date date = expenses[0].timestamp;
 
                 //Grouping the transactions by date
                 for (int i = 0; i < expenses.length; i++) {
                     if (date.equals(expenses[i].timestamp) && i > 0) {
-                        i++;
                         continue;
                     }
 
@@ -313,13 +259,12 @@ public class DashboardActivity extends AppCompatActivity{
                     sectionedExpenses = getExpensesWithDate(date, expenses);
 
                     if (sectionedExpenses.size() > 0) {
-                        expenseAdapter.addSection(new ExpensesSection(a.formatLongtoString(date), sectionedExpenses));
+                        expenseAdapter.addSection(new ExpensesSection(
+                                new DateFormatting().formatDatetoString("notModel",date), sectionedExpenses));
                     }
                 }
 
                 expenselist.setAdapter(expenseAdapter);
-
-                expenselist.setOnTouchListener(swipeDetector);
 
             }
             else
@@ -335,25 +280,13 @@ public class DashboardActivity extends AppCompatActivity{
         }
     }
 
-    private List<Expense> getExpensesWithDate(Long date, Expense[] expenses) {
-        List<Expense> sectionedExpenses = new ArrayList<>();
-
-       for(int i = 0; i < expenses.length; i++){
-            if (date.equals(expenses[i].timestamp)) {
-                sectionedExpenses.add(expenses[i]);
-            }
-        }
-
-        return sectionedExpenses;
-    }
-
 
     private class ExpensesSection extends StatelessSection {
 
         String title;
         List<Expense> list;
 
-        ExpensesSection(String title, List<Expense> list) {
+        public ExpensesSection(String title, List<Expense> list) {
             super(new SectionParameters.Builder(R.layout.item_expense)
                     .headerResourceId(R.layout.section_header)
                     .build());
@@ -386,14 +319,19 @@ public class DashboardActivity extends AppCompatActivity{
             itemHolder.rootView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(DashboardActivity.this, String.format("Clicked on position #%s of Section %s",
-                            expenseAdapter.getPositionInSection(itemHolder.getAdapterPosition()), title), Toast.LENGTH_SHORT).show();
-                    Log.d("Chosen item", String.valueOf(list.get(position)));
+               /* Toast.makeText(DashboardActivity.this, String.format("Clicked on position #%s of Section %s",
+                        expenseAdapter.getPositionInSection(itemHolder.getAdapterPosition()), title), Toast.LENGTH_SHORT).show();
+*/
+                    Log.d("Intent Dash-Trans", String.valueOf(new StringBuilder().append(list.get(position).$id)
+                            .append(list.get(position).amount).append(list.get(position).timestamp).append(list.get(position).category)));
+
                     Intent intent = new Intent(DashboardActivity.this, TransactionActivity.class);
                     intent.putExtra("id", list.get(position).$id);
                     intent.putExtra("amount", list.get(position).amount);
                     intent.putExtra("date", list.get(position).timestamp);
                     intent.putExtra("category", list.get(position).category);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY);
+
                     startActivity(intent);
                 }
             });
@@ -436,6 +374,20 @@ public class DashboardActivity extends AppCompatActivity{
                 category = (TextView) view.findViewById(R.id.expenseCategory);
             }
         }
+
+    }
+
+
+    private List<Expense> getExpensesWithDate(Date date, Expense[] expenses) {
+        List<Expense> sectionedExpenses = new ArrayList<>();
+
+       for(int i = 0; i < expenses.length; i++){
+            if (date.equals(expenses[i].timestamp)) {
+                sectionedExpenses.add(expenses[i]);
+            }
+        }
+
+        return sectionedExpenses;
     }
 
     @Override

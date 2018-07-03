@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.b.expensewatcher.DashboardActivity;
 import com.example.b.expensewatcher.R;
+import com.example.b.expensewatcher.WelcomeActivity;
 
 import java.util.Locale;
 
@@ -62,15 +63,21 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
                 String value = sharedPreferences.getString(p.getKey(), "");
                 setPreferenceSummary(p, value);
                 if(value == "en" || value == "om" || value == "am" || value == "so-rET" || value == "ti"){
-                   // Log.d("LANG VALUE",value);
                     setLocale(value);
                 }
             }
             if(p instanceof CheckBoxPreference) {
-                boolean value = sharedPreferences.getBoolean("notifications", false);
-                setPreferenceSummary(p, value);
+                boolean notify_value = sharedPreferences.getBoolean("notifications", false);
+                setPreferenceSummary(p, notify_value);
+                /*boolean welcome_value = sharedPreferences.getBoolean("welcome_slider",false);
+                if(welcome_value) {
+                    Toast.makeText(getContext(), String.valueOf(welcome_value), Toast.LENGTH_SHORT).show();
+                    new PrefManager(getContext()).setFirstTimeLaunch(welcome_value);
+                }
+                setPreferenceSummary(p,welcome_value);*/
             }
         }
+
     }
 
     // Register SettingsFragment (this) as a SharedPreferenceChangedListener in onStart

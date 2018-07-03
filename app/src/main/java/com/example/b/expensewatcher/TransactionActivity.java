@@ -1,6 +1,9 @@
 package com.example.b.expensewatcher;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -35,13 +38,14 @@ import com.example.b.expensewatcher.Utilities.DatabaseHelper;
 import com.example.b.expensewatcher.Utilities.DateFormatting;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import com.example.b.expensewatcher.data.ExpenseWatcherPreferences;
 import com.example.b.expensewatcher.models.RecyclerViewCategory;
 
 public class TransactionActivity extends AppCompatActivity implements RecyclerViewCategoryAdapter.ItemListener {
 
-    private int year, month, day;
+    private int year, month, day, itemToDelete;
     EditText transaction_amount, transaction_date;
     TextView transaction_delete;
     Expense newExpense = new Expense();
@@ -49,6 +53,8 @@ public class TransactionActivity extends AppCompatActivity implements RecyclerVi
     RecyclerViewCategory[] categories;
     RecyclerView categorylist;
     ExpenseWatcherPreferences data;
+    AlertDialog.Builder expenseDeleterDialog;
+    Intent mIntent;
 
     public static String WHICH_ACCOUNT;
 
@@ -81,7 +87,7 @@ public class TransactionActivity extends AppCompatActivity implements RecyclerVi
 
         //Find all the existing views
         transaction_delete = (TextView) findViewById(R.id.transaction_delete);
-        transaction_delete.setVisibility(View.GONE);
+        transaction_delete.setVisibility(View.INVISIBLE);
 
         transaction_amount = (EditText) findViewById(R.id.transaction_value);
         transaction_date = (EditText) findViewById(R.id.transaction_date);
@@ -98,22 +104,49 @@ public class TransactionActivity extends AppCompatActivity implements RecyclerVi
         day = c.get(Calendar.DAY_OF_MONTH);
 
         //In case of an update transaction, set amount and date to the transaction that is to be updated.
-        Intent mIntent = getIntent();
+        mIntent = getIntent();
         if(mIntent.getExtras() != null) {
+            //Log.d("Chosen Item: TransAct",String.valueOf(mIntent.getIntExtra("id",0)));
             transaction_amount.setText(String.format("%.2f",mIntent.getFloatExtra("amount",0)));
+            transaction_amount.setEnabled(true);
+            transaction_delete.setVisibility(View.VISIBLE);
+
+            itemToDelete = mIntent.getIntExtra("id", 0);
+            transaction_delete.setOnClickListener(new View.OnClickListener() {
+                                                      @Override
+                                                      public void onClick(View v) {
+                                                          if (itemToDelete != 0) {
+                                                              expenseDeleterDialog.show();
+                                                          }
+                                                      }
+                                                  }
+            );
+
+            expenseDeleterDialog = new AlertDialog.Builder(this).setTitle(R.string.confirmdel)
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            new deleteExpense().execute(itemToDelete);
+                            itemToDelete = 0;
+                            refreshIntent();
+                            finish();
+                        }
+                    })
+                    .setNeutralButton(R.string.cancel, null);
 
             //Split the date field into day, month, year and set the EditText to the date.
             DateFormatting dt = new DateFormatting();
             String[] datearray = new String[0];
-            if(mIntent.getExtras() != null) {
+
+                chosen_category = mIntent.getStringExtra("category");
+
                 try {
-                    datearray = dt.formatLongtoString(mIntent.getLongExtra("date", 0)).split("/");
+                    datearray = dt.formatDatetoString("notmodel",(Date)mIntent.getSerializableExtra("date")).split("/");
                     transaction_date.setText(new StringBuilder().append(datearray[0]).
                             append("/").append(datearray[1]).append("/").append(datearray[2]).append(" "));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }
 
         }
         else
@@ -144,10 +177,10 @@ public class TransactionActivity extends AppCompatActivity implements RecyclerVi
             }
         });
 
-
         //Get a list of all the categories stored in the database
         DatabaseHelper databasehelper = new DatabaseHelper(TransactionActivity.this);
         categories = databasehelper.allCategories(databasehelper);
+        databasehelper.close();
 
         //Populate listview with all categories
         final RecyclerViewCategoryAdapter allcategories = new RecyclerViewCategoryAdapter(TransactionActivity.this, categories, this);
@@ -162,9 +195,31 @@ public class TransactionActivity extends AppCompatActivity implements RecyclerVi
 
         //To highlight the particular category
         if(mIntent.getExtras() != null) {
-            chosen_category = mIntent.getStringExtra("category");
         }
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        refreshIntent();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshIntent();
+    }
+
+    private void refreshIntent() {
+        int flags = mIntent.getFlags();
+        if((flags & mIntent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) != 0) {
+            mIntent.removeExtra("id");
+            mIntent.removeExtra("amount");
+            mIntent.removeExtra("date");
+            mIntent.removeExtra("category");
+        }
+    }
+
 
     public void displayResults(Boolean response) {
         if(response)
@@ -209,7 +264,7 @@ public class TransactionActivity extends AppCompatActivity implements RecyclerVi
             DateFormatting df = new DateFormatting();
             try{
 
-                newExpense.timestamp = df.formatStringtoLong(params[0].trim());
+                newExpense.timestamp = df.formatStringtoDate("Transaction", params[0].trim());
             }
             catch(Exception e)
             {
@@ -219,6 +274,7 @@ public class TransactionActivity extends AppCompatActivity implements RecyclerVi
             //Call the createExpense function in the DatabaseHelper class
             DatabaseHelper databaseHelper = new DatabaseHelper(TransactionActivity.this);
             boolean response = databaseHelper.createExpense (databaseHelper, newExpense, WHICH_ACCOUNT);
+            databaseHelper.close();
 
             return response;
         }
@@ -247,7 +303,7 @@ public class TransactionActivity extends AppCompatActivity implements RecyclerVi
             DateFormatting df = new DateFormatting();
             try{
 
-                newExpense.timestamp = df.formatStringtoLong(params[1].trim());
+                newExpense.timestamp = df.formatStringtoDate("Transaction",params[1].trim());
             }
             catch(Exception e)
             {
@@ -262,6 +318,7 @@ public class TransactionActivity extends AppCompatActivity implements RecyclerVi
             //Call the createExpense function in the DatabaseHelper file
             DatabaseHelper databaseHelper = new DatabaseHelper(TransactionActivity.this);
             boolean response = databaseHelper.updateExpense (databaseHelper, newExpense, WHICH_ACCOUNT);
+            databaseHelper.close();
 
             return response;
 
@@ -274,12 +331,50 @@ public class TransactionActivity extends AppCompatActivity implements RecyclerVi
         }
     }
 
+    /*********************************************************************************************
+     DELETE EXPENSE
+     */
+    private class deleteExpense extends AsyncTask<Integer, Void, Integer> {
+
+        @Override
+        protected Integer doInBackground(Integer... params) {
+            int value = 0;
+
+            WHICH_ACCOUNT = data.getPreferredAccount(TransactionActivity.this);
+
+            try{
+                DatabaseHelper databaseHelper = new DatabaseHelper(TransactionActivity.this);
+                value = databaseHelper.deleteExpense(databaseHelper,params[0],WHICH_ACCOUNT);
+                databaseHelper.close();
+
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+
+            return  value;
+        }
+
+        @Override
+        protected void onPostExecute(Integer i) {
+            super.onPostExecute(i);
+
+            if(i != 0) {
+                Toast.makeText(TransactionActivity.this,R.string.expensedel,Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                Toast.makeText(TransactionActivity.this,R.string.error,Toast.LENGTH_LONG).show();
+
+            }
+        }
+    }
+
     //Inflate all the required menus
     //TODO: Move the 'Cancel' option to the left hand side.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.addexpense ,menu);
-        //getMenuInflater().inflate(R.menu.menu_main,menu);
         return true;
     }
 
@@ -287,42 +382,41 @@ public class TransactionActivity extends AppCompatActivity implements RecyclerVi
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()){
-            case R.id.action_addexpense:
-
-                boolean emptyAmount = TextUtils.isEmpty(transaction_amount.getText().toString());
-                boolean emptyCategory = TextUtils.isEmpty(chosen_category);
-                boolean emptyDate = TextUtils.isEmpty(transaction_date.getText().toString());
-
-                //Check if variables are empty, if not add expense.
-                if(!emptyAmount && !emptyCategory && !emptyDate) {
-                    Intent mIntent = getIntent();
-                    if(mIntent.getExtras() == null) {
-                        transaction_delete.setVisibility(TextView.INVISIBLE);
-                        new addExpense().execute(transaction_date.getText().toString(), transaction_amount.getText().toString(), chosen_category);
-                        transaction_amount.setText(null);
-                        transaction_amount.setHint(R.string.entervalue);
-
-                        // Clear the choices in the ListView categorylist
-                        //TODO (RecyclerView): categorylist.setItemChecked(categorylist.getSelectedItemPosition(),false);
-                    }
-                    else {
-                        transaction_delete.setVisibility(View.VISIBLE);
-                        new updateExpense().execute(String.valueOf(mIntent.getIntExtra("id", 0)), transaction_date.getText().toString(), transaction_amount.getText().toString(), chosen_category);
-                    }
-                }
-                else {
-                    Toast.makeText(this, R.string.details_missing, Toast.LENGTH_SHORT).show();
-                }
+            case R.id.action_addexpense: addExpense();
                 break;
             case R.id.home:
                 NavUtils.navigateUpFromSameTask(TransactionActivity.this);
                 break;
-           /*
-            case R.id.menu_settings:
-                Toast.makeText(TransactionActivity.this,"More options coming...",Toast.LENGTH_LONG).show();
-                break;*/
             default: break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void addExpense(){
+        boolean emptyAmount = TextUtils.isEmpty(transaction_amount.getText().toString());
+        boolean emptyCategory = TextUtils.isEmpty(chosen_category);
+        boolean emptyDate = TextUtils.isEmpty(transaction_date.getText().toString());
+
+        //Check if variables are empty, if not add expense.
+        if(!emptyAmount && !emptyCategory && !emptyDate) {
+            Intent mIntent = getIntent();
+
+            if(mIntent.getExtras() == null) {
+                new addExpense().execute(transaction_date.getText().toString(), transaction_amount.getText().toString(), chosen_category);
+                transaction_amount.setText(null);
+                transaction_amount.setHint(R.string.entervalue);
+
+                // Clear the choices in the ListView categorylist
+                //TODO (RecyclerView): categorylist.setItemChecked(categorylist.getSelectedItemPosition(),false);
+            }
+            else {
+                new updateExpense().execute(String.valueOf(mIntent.getIntExtra("id", 0)),
+                        transaction_date.getText().toString(), transaction_amount.getText().toString(), chosen_category);
+                refreshIntent();
+            }
+        }
+        else {
+            Toast.makeText(this, R.string.details_missing, Toast.LENGTH_SHORT).show();
+        }
     }
 }

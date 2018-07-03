@@ -35,13 +35,17 @@ import com.example.b.expensewatcher.data.ExpenseWatcherPreferences;
  * Created by B on 24-Apr-17.
  */
 
-public class pieChartActivity extends AppCompatActivity implements TotalExpensePerCategoryAdapter.Exp_Category_ItemListener, OnChartValueSelectedListener {
+public class pieChartActivity extends AppCompatActivity
+        implements TotalExpensePerCategoryAdapter.Exp_Category_ItemListener, OnChartValueSelectedListener {
 
     PieChart pieChart ;
     ArrayList<PieEntry> pieEntries;
     ArrayList<String> PieEntryLabels;
     PieDataSet pieDataSet;
     PieData pieData;
+
+    TotalExpensePerCategoryAdapter total_expense_category_adapter;
+    RecyclerView.LayoutManager mLayoutManager;
 
     LineChart lineChart;
     ArrayList<Entry> lineEntries;
@@ -53,7 +57,6 @@ public class pieChartActivity extends AppCompatActivity implements TotalExpenseP
     ExpenseWatcherPreferences data;
 
     public static String WHICH_ACCOUNT;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +79,43 @@ public class pieChartActivity extends AppCompatActivity implements TotalExpenseP
 
         PieEntryLabels = new ArrayList<>();
 
-        boolean result = AddValuesToPIEENTRY();
+        createPieChartList(AddValuesToPIEENTRY());
 
+        //pieChart.setBackgroundColor(Color.LTGRAY);
+        //pieChart.getDescription().setText("Expenses by Category");
+
+        //TODO: Press and Hold pieChart then provide a dialog appears to save image
+         //pieChart.saveToGallery(String.valueOf(new StringBuilder().append("pieChart").append(System.currentTimeMillis()).append(".jpg")),85);
+        //pieChart.animateY(0);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        createPieChartList(AddValuesToPIEENTRY());
+    }
+
+    public boolean AddValuesToPIEENTRY(){
+
+        data = new ExpenseWatcherPreferences();
+        WHICH_ACCOUNT = data.getPreferredAccount(pieChartActivity.this);
+        final DatabaseHelper db = new DatabaseHelper(pieChartActivity.this);
+        catexpenses = db.pieChartCalc(db, db.allExpenses(db, WHICH_ACCOUNT), WHICH_ACCOUNT);
+
+        if(catexpenses.length == 0){
+            return false;
+        }
+
+        //Donut Chart: Add each total expense per category and their respective titles.
+        for(int i = 0; i < catexpenses.length; i++) {
+            pieEntries.add(new PieEntry(catexpenses[i].total_expenses_per_category, catexpenses[i].category_title, i));
+        }
+
+        return true;
+    }
+
+    private void createPieChartList(boolean result) {
         if(result) {
             pieDataSet = new PieDataSet(pieEntries, "");
 
@@ -93,10 +131,10 @@ public class pieChartActivity extends AppCompatActivity implements TotalExpenseP
             int colorcodes[] = getColors(legend);
 
             //List: Add array of total expense per category, title and color code to Adapter. Set adapter to list.
-            TotalExpensePerCategoryAdapter total_expense_category_adapter =
+            total_expense_category_adapter =
                     new TotalExpensePerCategoryAdapter(pieChartActivity.this, catexpenses, colorcodes, this);
 
-            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+            mLayoutManager = new LinearLayoutManager(getApplicationContext());
 
             //Add the divider line between rows and set the layout manager
             total_expense_category_list.addItemDecoration(new DividerItemDecoration(this,LinearLayoutManager.VERTICAL));
@@ -119,37 +157,8 @@ public class pieChartActivity extends AppCompatActivity implements TotalExpenseP
                 }
             });
         }
-        //pieChart.setBackgroundColor(Color.LTGRAY);
-        //pieChart.getDescription().setText("Expenses by Category");
-
-        //TODO: Press and Hold pieChart then provide a dialog appears to save image
-         //pieChart.saveToGallery(String.valueOf(new StringBuilder().append("pieChart").append(System.currentTimeMillis()).append(".jpg")),85);
-        //pieChart.animateY(0);
-
-        //TODO: When click on category, display the percentage of total category in the center
-
     }
 
-
-
-    public boolean AddValuesToPIEENTRY(){
-
-        data = new ExpenseWatcherPreferences();
-        WHICH_ACCOUNT = data.getPreferredAccount(pieChartActivity.this);
-        final DatabaseHelper db = new DatabaseHelper(pieChartActivity.this);
-        catexpenses = db.pieChartCalc(db, db.allExpenses(db, WHICH_ACCOUNT), WHICH_ACCOUNT);
-
-        if(catexpenses.length == 0){
-            return false;
-        }
-
-        //Donut Chart: Add each total expense per category and their respective titles.
-        for(int i = 0; i < catexpenses.length; i++) {
-            pieEntries.add(new PieEntry(catexpenses[i].total_expenses_per_category, catexpenses[i].category_title, i));
-        }
-
-        return true;
-    }
 
     @Override
     public void onValueSelected(Entry e, Highlight h) {
@@ -255,7 +264,7 @@ public class pieChartActivity extends AppCompatActivity implements TotalExpenseP
     @Override
     public void onItemClick(CategoryPerExpense item) {
 
-        Intent intent = new Intent(pieChartActivity.this, CategorybasedActivity.class);
+        Intent intent = new Intent(pieChartActivity.this, CategoryMonthlyActivity.class);
         intent.putExtra("category", item.category_title);
         startActivity(intent);
     }

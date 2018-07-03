@@ -87,9 +87,8 @@ public class TotalExpensePerCategoryAdapter extends RecyclerView.Adapter<TotalEx
     public void onBindViewHolder(TotalExpensePerCategoryAdapter.ViewHolder holder, int position) {
         int colorpos = position < ColorCodes.length ? position : position % ColorCodes.length;
         Log.d("POS",String.valueOf(position));
-         Log.d("COLORPOS",String.valueOf(colorpos));
+        Log.d("COLORPOS",String.valueOf(colorpos));
         holder.setData(mValues[position], ColorCodes[colorpos]);
-
     }
 
     @Override
