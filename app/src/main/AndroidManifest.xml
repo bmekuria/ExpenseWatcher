@@ -37,8 +37,8 @@
         <activity
             android:name=".TransactionActivity"
             android:label="TransactionActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"></activity>
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".pieChartActivity"
             android:label="@string/pieChartActivity"
@@ -106,7 +106,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".SettingsActivity" />
         </activity>
-        <activity android:name=".WelcomeActivity"></activity>
+        <activity android:name=".WelcomeActivity" />
         <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme">
@@ -116,7 +116,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MonthlyExpensesActivity"></activity>
+        <activity android:name=".MonthlyExpensesActivity" />
+        <activity android:name=".ShareActivity"></activity>
     </application>
 
 </manifest>

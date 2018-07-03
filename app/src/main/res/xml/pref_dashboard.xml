@@ -35,10 +35,8 @@
                 android:action="android.intent.action.VIEW"
                 android:targetPackage="com.example.b.expensewatcher"
                 android:targetClass="com.example.b.expensewatcher.extendedversion"/>
-            <!--TODO Popup dialog instead -->
         </Preference>
     </PreferenceCategory>
-
     <PreferenceCategory
         android:title="@string/title_security_settings"/>
         <CheckBoxPreference
@@ -66,18 +64,23 @@
                     android:targetClass="com.example.b.expensewatcher.PrivacyPolicy"/>
             </Preference>
             <Preference
-            android:title="@string/title_about">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:targetPackage="com.example.b.expensewatcher"
-                android:targetClass="com.example.b.expensewatcher.About"/>
+                android:selectable="false"
+                android:title="@string/title_about"
+                android:summary="@string/summary_about">
             </Preference>
             <Preference
                 android:title="@string/title_welcome_slider">
                 <intent
-                    android:action="android.intent.action.VIEW"
+                android:action="android.intent.action.VIEW"
+                android:targetPackage="com.example.b.expensewatcher"
+                android:targetClass="com.example.b.expensewatcher.WelcomeActivity"/>
+            </Preference>
+            <Preference
+                android:title="@string/preference_share">
+                <intent
+                    android:action="android.intent.action.SEND"
                     android:targetPackage="com.example.b.expensewatcher"
-                    android:targetClass="com.example.b.expensewatcher.WelcomeActivity"/>
+                    android:targetClass="com.example.b.expensewatcher.ShareActivity"/>
             </Preference>
     </PreferenceCategory>
     <!-- Settings

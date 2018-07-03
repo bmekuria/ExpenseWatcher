@@ -128,5 +128,10 @@
     <!-- TODO Welcome slider again -->
     <string name="play_again_desc">To see the welcome slider again, goto Settings -> welcome slider -> clear data</string>
     <string name="play_again">Play Again</string>
+    <string name="preference_share">Share the app</string>
+
+    <!-- TODO Update Summary and app link -->
+    <string name="summary_about">Here is a short summary about Bruke.</string>
+    <string name="applink">Dowload for FREE at http://www.google.com/playstore</string>
 
 </resources>
