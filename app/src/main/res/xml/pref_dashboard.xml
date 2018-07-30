@@ -28,6 +28,10 @@
             android:title="@string/pref_choose_account" />
         <Preference
             android:title="@string/title_manage_categories">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetPackage="com.example.b.expensewatcher"
+                android:targetClass="com.example.b.expensewatcher.ManageCategory" />
         </Preference>
         <Preference
             android:title="@string/title_export">

@@ -27,4 +27,11 @@
     <string name="enter_expense_header">ወጻኢ ኣእተወ</string>
     <string name="expense_amount">ዓቐን ኣእተወ</string>
     <string name="expense_name">ስም ኣእተወ</string>
+    <string name="notification_content_title">Add your expenses</string>
+    <string name="notification_content_text">Log in your daily expenses</string>
+    <string name="addCategory">Add Category</string>
+    <string name="min_criteria_error_categoryname">Category title must be more than one character</string>
+    <string name="inuse_error_categoryname">Category title is already in use</string>
+    <string name="hint_category_title">Category Title</string>
+    <string name="manageCategories">Manage Categories</string>
 </resources>

@@ -117,7 +117,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".MonthlyExpensesActivity" />
-        <activity android:name=".ShareActivity"></activity>
+        <activity android:name=".ShareActivity" />
+        <activity android:name=".EditCategory" />
+        <activity android:name=".ManageCategory"></activity>
     </application>
 
 </manifest>
