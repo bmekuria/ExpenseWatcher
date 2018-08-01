@@ -119,7 +119,8 @@
         <activity android:name=".MonthlyExpensesActivity" />
         <activity android:name=".ShareActivity" />
         <activity android:name=".EditCategory" />
-        <activity android:name=".ManageCategory"></activity>
+        <activity android:name=".ManageCategory" />
+        <activity android:name=".ReplayWelcomeSlider"></activity>
     </application>
 
 </manifest>
