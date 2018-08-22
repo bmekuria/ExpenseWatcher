@@ -2,7 +2,10 @@
 
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android" android:opacity="opaque">
     <item
-        android:drawable="@color/backgroundGreen"/>
+        android:drawable="@color/colorWhite"/>
+    <item>
+
+    </item>
     <item>
         <bitmap
             android:gravity="center"

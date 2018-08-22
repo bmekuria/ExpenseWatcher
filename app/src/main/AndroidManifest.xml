@@ -67,6 +67,16 @@
                 android:value=".pieChartActivity" />
         </activity>
         <activity
+            android:name=".MonthlyExpensesActivity"
+            android:label="MonthlyExpensesActivity"
+            android:launchMode="singleTask"
+            android:parentActivityName=".CategoryMonthlyActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".CategoryMonthlyActivity" />
+        </activity>
+        <activity
             android:name=".ChangePasscode"
             android:label="ChangePasscode"
             android:launchMode="singleTask"
@@ -116,7 +126,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MonthlyExpensesActivity" />
         <activity android:name=".ShareActivity" />
         <activity android:name=".EditCategory" />
         <activity android:name=".ManageCategory" />

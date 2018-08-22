@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory android:title="@string/title_language_settings">
         <ListPreference
@@ -13,12 +12,15 @@
     </PreferenceCategory>
         <CheckBoxPreference
             android:title="@string/notifications"
+            android:icon="@android:drawable/ic_lock_idle_alarm"
             android:summaryOn="@string/not_summaryon"
             android:summaryOff="@string/not_summaryoff"
             android:defaultValue="@string/not_summaryoff"
             android:key="notifications" />
 
-    <PreferenceCategory android:title="@string/title_account_settings">
+    <PreferenceCategory
+        android:title="@string/title_account_settings"
+        android:icon="@android:drawable/ic_menu_add">
         <ListPreference
             android:defaultValue="@string/pref_account_main_value"
             android:entries="@array/pref_account_labels"
@@ -27,14 +29,16 @@
             android:key="@string/pref_account_key"
             android:title="@string/pref_choose_account" />
         <Preference
-            android:title="@string/title_manage_categories">
+            android:title="@string/title_manage_categories"
+            android:icon="@android:drawable/ic_menu_manage">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:targetPackage="com.example.b.expensewatcher"
                 android:targetClass="com.example.b.expensewatcher.ManageCategory" />
         </Preference>
         <Preference
-            android:title="@string/title_export">
+            android:title="@string/title_export"
+            android:icon="@android:drawable/ic_menu_set_as">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:targetPackage="com.example.b.expensewatcher"
@@ -45,6 +49,7 @@
         android:title="@string/title_security_settings"/>
         <CheckBoxPreference
             android:title="Turn Passcode"
+            android:icon="@android:drawable/ic_secure"
             android:summaryOn="@string/not_summaryon"
             android:summaryOff="@string/not_summaryoff"
             android:defaultValue="@string/not_summaryoff"
@@ -52,7 +57,8 @@
             />
         <Preference
             android:id="@+id/changepasscode"
-            android:title="@string/pref_title_passcode">
+            android:title="@string/pref_title_passcode"
+            android:icon="@android:drawable/ic_lock_idle_lock">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:targetPackage="com.example.b.expensewatcher"
@@ -61,7 +67,8 @@
     <PreferenceCategory
         android:title="@string/title_version_info">
             <Preference
-                android:title="@string/title_privacy_policy">
+                android:title="@string/title_privacy_policy"
+                android:icon="@android:drawable/ic_partial_secure">
                 <intent
                     android:action="android.intent.action.VIEW"
                     android:targetPackage="com.example.b.expensewatcher"
@@ -70,22 +77,32 @@
             <Preference
                 android:selectable="false"
                 android:title="@string/title_about"
+                android:icon="@android:drawable/ic_menu_info_details"
                 android:summary="@string/summary_about">
             </Preference>
             <Preference
-                android:title="@string/title_welcome_slider">
+                android:title="@string/title_welcome_slider"
+                android:icon="@android:drawable/ic_menu_day">
                 <intent
                 android:action="android.intent.action.VIEW"
                 android:targetPackage="com.example.b.expensewatcher"
                 android:targetClass="com.example.b.expensewatcher.ReplayWelcomeSlider"/>
             </Preference>
             <Preference
-                android:title="@string/preference_share">
+                android:title="@string/preference_share"
+                android:icon="@android:drawable/ic_menu_share">
                 <intent
                     android:action="android.intent.action.SEND"
                     android:targetPackage="com.example.b.expensewatcher"
                     android:targetClass="com.example.b.expensewatcher.ShareActivity"/>
             </Preference>
+            <Preference
+                android:title="Feedback"
+                android:icon="@android:drawable/ic_dialog_email">
+            </Preference>
+            <Preference
+                android:title="Rate on Google Play"
+                android:icon="@android:drawable/ic_menu_help" />
     </PreferenceCategory>
     <!-- Settings
     Language

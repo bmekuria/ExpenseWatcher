@@ -125,8 +125,7 @@
     <string name="slide_4_title">Add Transaction</string>
     <string name="slide_4_desc">Add all your expenses and categorize them</string>
 
-    <!-- TODO Welcome slider again -->
-    <string name="play_again_desc">To see the welcome slider again, goto Settings -> welcome slider -> clear data</string>
+    <string name="play_again_desc">To see the welcome slider again, goto Settings -> welcome slider</string>
     <string name="play_again">Play Again</string>
     <string name="preference_share">Share the app</string>
 
