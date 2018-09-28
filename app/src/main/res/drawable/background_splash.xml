@@ -4,9 +4,6 @@
     <item
         android:drawable="@color/colorWhite"/>
     <item>
-
-    </item>
-    <item>
         <bitmap
             android:gravity="center"
             android:src="@mipmap/logo"/>

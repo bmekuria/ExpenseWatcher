@@ -34,4 +34,8 @@
     <string name="inuse_error_categoryname">Category title is already in use</string>
     <string name="hint_category_title">Category Title</string>
     <string name="manageCategories">Manage Categories</string>
+    <string name="transaction_description">description</string>
+    <string name="feedback_issue_title">Select your issue</string>
+    <string name="feedback_issue_optional">Add more details about your issue (Optional)</string>
+    <string name="pref_passcode_title">Passcode</string>
 </resources>

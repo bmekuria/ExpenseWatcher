@@ -38,7 +38,8 @@
             android:name=".TransactionActivity"
             android:label="TransactionActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".pieChartActivity"
             android:label="@string/pieChartActivity"
@@ -65,6 +66,17 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".pieChartActivity" />
+        </activity>
+        <activity
+            android:name=".FeedbackForm"
+            android:label="FeedBack"
+            android:launchMode="singleTask"
+            android:parentActivityName=".SettingsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".SettingsActivity" />
         </activity>
         <activity
             android:name=".MonthlyExpensesActivity"
@@ -129,7 +141,8 @@
         <activity android:name=".ShareActivity" />
         <activity android:name=".EditCategory" />
         <activity android:name=".ManageCategory" />
-        <activity android:name=".ReplayWelcomeSlider"></activity>
+        <activity android:name=".ReplayWelcomeSlider" />
+        <activity android:name=".ReadPasscode"></activity>
     </application>
 
 </manifest>

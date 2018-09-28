@@ -3,6 +3,7 @@
 
     <PreferenceCategory android:title="@string/title_language_settings">
         <ListPreference
+            android:icon="@drawable/ic_action_languages"
             android:defaultValue="@string/pref_language_eng_value"
             android:entries="@array/pref_language_option_labels"
             android:entryValues="@array/pref_language_option_values"
@@ -19,9 +20,9 @@
             android:key="notifications" />
 
     <PreferenceCategory
-        android:title="@string/title_account_settings"
-        android:icon="@android:drawable/ic_menu_add">
+        android:title="@string/title_account_settings">
         <ListPreference
+            android:icon="@drawable/insurance"
             android:defaultValue="@string/pref_account_main_value"
             android:entries="@array/pref_account_labels"
             android:summary="%s"
@@ -48,12 +49,12 @@
     <PreferenceCategory
         android:title="@string/title_security_settings"/>
         <CheckBoxPreference
-            android:title="Turn Passcode"
+            android:title="@string/pref_passcode_title"
             android:icon="@android:drawable/ic_secure"
             android:summaryOn="@string/not_summaryon"
             android:summaryOff="@string/not_summaryoff"
             android:defaultValue="@string/not_summaryoff"
-            android:key="usepasscode"
+            android:key="@string/pref_key_passcode"
             />
         <Preference
             android:id="@+id/changepasscode"
@@ -68,21 +69,24 @@
         android:title="@string/title_version_info">
             <Preference
                 android:title="@string/title_privacy_policy"
-                android:icon="@android:drawable/ic_partial_secure">
+                android:icon="@android:drawable/ic_menu_view">
                 <intent
                     android:action="android.intent.action.VIEW"
                     android:targetPackage="com.example.b.expensewatcher"
                     android:targetClass="com.example.b.expensewatcher.PrivacyPolicy"/>
             </Preference>
             <Preference
-                android:selectable="false"
                 android:title="@string/title_about"
                 android:icon="@android:drawable/ic_menu_info_details"
                 android:summary="@string/summary_about">
+                <intent
+                    android:action="android.intent.action.VIEW"
+                    android:targetPackage="com.example.b.expensewatcher"
+                    android:targetClass="com.example.b.expensewatcher.About"/>
             </Preference>
             <Preference
                 android:title="@string/title_welcome_slider"
-                android:icon="@android:drawable/ic_menu_day">
+                android:icon="@drawable/personal">
                 <intent
                 android:action="android.intent.action.VIEW"
                 android:targetPackage="com.example.b.expensewatcher"
@@ -99,10 +103,14 @@
             <Preference
                 android:title="Feedback"
                 android:icon="@android:drawable/ic_dialog_email">
+                <intent
+                    android:action="android.intent.action.VIEW"
+                    android:targetPackage="com.example.b.expensewatcher"
+                    android:targetClass="com.example.b.expensewatcher.FeedbackForm"/>
             </Preference>
             <Preference
                 android:title="Rate on Google Play"
-                android:icon="@android:drawable/ic_menu_help" />
+                android:icon="@drawable/ic_icon_rate" />
     </PreferenceCategory>
     <!-- Settings
     Language
