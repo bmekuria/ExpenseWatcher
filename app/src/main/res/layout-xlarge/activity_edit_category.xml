@@ -9,10 +9,10 @@
 
     <EditText
         android:id="@+id/edit_category_title"
-        android:layout_width="275dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_width="700dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="36dp"
         android:ems="10"
         android:hint="@string/hint_category_title"
         android:inputType="textPersonName"
@@ -21,20 +21,20 @@
 
     <CheckBox
         android:id="@+id/edit_category_checkbox"
-        android:layout_width="275dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="76dp"
+        android:layout_width="700dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="120dp"
         android:text="@string/income"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/edit_category_list"
-        android:layout_width="275dp"
-        android:layout_height="300dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="130dp"
+        android:layout_width="700dp"
+        android:layout_height="718dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="212dp"
         android:scrollbars="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"></android.support.v7.widget.RecyclerView>

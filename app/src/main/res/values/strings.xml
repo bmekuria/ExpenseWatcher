@@ -12,13 +12,13 @@
     <string name="amount">Amount</string>
     <string name="category">Category</string>
     <string name="confirmdel">Confirm Delete</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="expensedel">Expense Deleted</string>
     <string name="error">Error</string>
     <!-- Key name for transaction activity -->
     <string name="addexpense">ENTER</string>
-    <string name="entervalue">Enter Value</string>
+    <string name="entervalue">ENTER AMOUNT</string>
     <string name="expense_amount">Expense Amount</string>
     <string name="expense_name">Expense Name</string>
     <string name="exit">Cancel</string>
@@ -35,7 +35,6 @@
 
     <!-- PREFERENCES
     -->
-    <string name="notifications">Notifications</string>
     <string name="not_summaryon">On</string>
     <string name="not_summaryoff">Off</string>
 
@@ -115,7 +114,6 @@
     <string name="start">GOT IT</string>
 
     <string name="slide_1_title">Choose Language</string>
-    <string name="slide_1_desc"></string>
 
     <string name="slide_2_title">Dashboard View</string>
     <string name="slide_2_desc">See all your transactions on a daily basis.</string>
@@ -145,5 +143,7 @@
     <string name="title_activity_feed_back_form">FeedBackForm</string>
     <string name="feedback_issue_title">Select your issue</string>
     <string name="feedback_issue_optional">Add more details about your issue (Optional)</string>
+    <string name="default_password">Default password: 1234</string>
+    <string name="dateformat">dd/mm/yyyy</string>
 
 </resources>

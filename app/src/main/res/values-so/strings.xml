@@ -23,7 +23,6 @@
     <string name="expenses_by_category">KHARASHYADA QAYBTA</string>
     <string name="expenses_per_month">KHARASHYADA BISHA</string>
     <string name="configure">ISKU HAGAAJIN</string>
-    <string name="notifications">OGAYSIISYADA</string>
     <string name="pref_account_title">MAAREYNTA KOONTOOYINKA</string>
     <string name="pref_account_main_label">XISAABTA UGU WEYN</string>
     <string name="pref_account_sec_label">XISAABTA IABAAD</string>
@@ -56,4 +55,5 @@
     <string name="feedback_issue_title">Select your issue</string>
     <string name="feedback_issue_optional">Add more details about your issue (Optional)</string>
     <string name="pref_passcode_title">Passcode</string>
+    <string name="default_password">Default password: 1234</string>
 </resources>

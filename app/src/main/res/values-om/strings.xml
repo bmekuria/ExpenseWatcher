@@ -19,4 +19,5 @@
     <string name="feedback_issue_title">Select your issue</string>
     <string name="feedback_issue_optional">Add more details about your issue (Optional)</string>
     <string name="pref_passcode_title">Passcode</string>
+    <string name="default_password">Default password: 1234</string>
 </resources>
