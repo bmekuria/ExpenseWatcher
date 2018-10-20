@@ -21,8 +21,10 @@
     <string name="entervalue">ENTER AMOUNT</string>
     <string name="expense_amount">Expense Amount</string>
     <string name="expense_name">Expense Name</string>
-    <string name="exit">Cancel</string>
+    <string name="exit">CANCEL</string>
     <string name="details_missing">Please fill in all the details</string>
+    <string name="transaction_description">DESCRIPTION</string>
+    <string name="date">DATE</string>
     <!-- Key name for Charts -->
     <string name="title_activity_pie_chart" translatable="true">Analysis</string>
     <string name="analyze">Analyze</string>
@@ -139,11 +141,11 @@
     <string name="inuse_error_categoryname">Category title is already in use</string>
     <string name="hint_category_title">Category Title</string>
     <string name="manageCategories">Manage Categories</string>
-    <string name="transaction_description">description</string>
     <string name="title_activity_feed_back_form">FeedBackForm</string>
     <string name="feedback_issue_title">Select your issue</string>
     <string name="feedback_issue_optional">Add more details about your issue (Optional)</string>
     <string name="default_password">Default password: 1234</string>
     <string name="dateformat">dd/mm/yyyy</string>
+    <string name="err_msg_enterdate">ENTER DATE</string>
 
 </resources>
