@@ -41,4 +41,6 @@
     <string name="default_password">Default password: 1234</string>
     <string name="date">DATE</string>
     <string name="err_msg_enterdate">ENTER DATE</string>
+    <string name="clearskies">CLEARSKIES</string>
+    <string name="app_version">1.0.0</string>
 </resources>

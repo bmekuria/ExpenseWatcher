@@ -75,7 +75,15 @@ configurations.all {
 
 dependencies {
     implementation 'com.android.support.constraint:constraint-layout:+'
-    implementation 'com.android.support:gridlayout-v7:26.0.1'
+    implementation 'com.android.support:gridlayout-v7:25.4.0'
+}
+
+dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:+'
+}
+
+dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:+'
 }
 
 dependencies {

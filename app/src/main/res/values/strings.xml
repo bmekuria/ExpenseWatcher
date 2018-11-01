@@ -19,8 +19,8 @@
     <!-- Key name for transaction activity -->
     <string name="addexpense">ENTER</string>
     <string name="entervalue">ENTER AMOUNT</string>
-    <string name="expense_amount">Expense Amount</string>
-    <string name="expense_name">Expense Name</string>
+    <!--<string name="expense_amount">Expense Amount</string>
+    <string name="expense_name">Expense Name</string>-->
     <string name="exit">CANCEL</string>
     <string name="details_missing">Please fill in all the details</string>
     <string name="transaction_description">DESCRIPTION</string>
@@ -98,7 +98,7 @@
     <string name="msg_wrong_passcode">Wrong Passcode</string>
     <string name="pref_key_passcode">Passcode</string>
     <string name="pref_title_passcode">Change Passcode</string>
-    <string name="pref_passcode_title">Passcode</string>
+    <string name="pref_passcode_title" translatable="false">Passcode</string>
     <string name="change_passcode">Change your Passcode</string>
     <string name="enter_passcode">Enter your passcode</string>
     <string name="enter_current_passcode">Enter Current Passcode</string>
@@ -147,5 +147,7 @@
     <string name="default_password">Default password: 1234</string>
     <string name="dateformat">dd/mm/yyyy</string>
     <string name="err_msg_enterdate">ENTER DATE</string>
+    <string name="clearskies">CLEARSKIES</string>
+    <string name="app_version">1.0.0</string>
 
 </resources>

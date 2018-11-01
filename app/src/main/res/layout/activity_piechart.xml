@@ -1,36 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:id="@+id/scrollchart">
-<LinearLayout
-    android:id="@+id/activity_main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
-    tools:context="com.example.b.expensewatcher.pieChartActivity">
+    xmlns:andrdoid="http://schemas.android.com/apk/res-auto">
 
-    <TextView
+    <RelativeLayout
+        android:id="@+id/linlay_avgspending_pieChart"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/expenses_by_category"
-        android:textSize="22dp"
-        android:id="@+id/pieCharttitle"/>
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/chart1"
-        android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:layout_marginTop="30dp"/>
-        <android.support.v7.widget.RecyclerView
+        android:layout_height="70dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
+
+        <TextView
+            android:id="@+id/tv_title_avgspendingperday_pieChart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="36dp"
+            android:text="PER DAY THIS MONTH"
+            android:textSize="@dimen/sp10" />
+
+        <TextView
+            android:id="@+id/tv_title_avgspendingpermonth_pieChart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/tv_avgspendingpermonth_pieChart"
+            android:text="PER MONTH"
+            android:textSize="@dimen/sp10" />
+
+        <TextView
+            android:id="@+id/tv_avgspendingperday_pieChart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/tv_title_avgspendingperday_pieChart"
+            android:layout_centerVertical="true"
+            android:text="100.00"
+            android:textSize="@dimen/sp20" />
+
+        <TextView
+            android:id="@+id/tv_avgspendingpermonth_pieChart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="50dp"
+            android:text="100.0"
+            android:textSize="@dimen/sp20" />
+    </RelativeLayout>
+    <android.support.v4.widget.NestedScrollView
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+        android:layout_below="@+id/linlay_avgspending_pieChart"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:id="@+id/scrollchart"
+    android:layout_above="@+id/linlay_adView_piechart">
+        <LinearLayout
+            android:id="@+id/activity_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/total_expenses_per_category_list">
-        </android.support.v7.widget.RecyclerView>
-</LinearLayout>
-</android.support.v4.widget.NestedScrollView>
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:orientation="vertical"
+            tools:context="com.example.b.expensewatcher.pieChartActivity">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/expenses_by_category"
+                android:textSize="22dp"
+                android:id="@+id/pieCharttitle"/>
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/chart1"
+                android:layout_width="match_parent"
+                android:layout_height="350dp" />
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/total_expenses_per_category_list">
+                </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+    <LinearLayout
+    android:id="@+id/linlay_adView_piechart"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:layout_alignParentBottom="true"
+    android:paddingTop="@dimen/activity_vertical_smallmargin"
+    android:orientation="vertical">
+    </LinearLayout>
+</RelativeLayout>

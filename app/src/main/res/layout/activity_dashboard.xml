@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
     android:id="@+id/activity_dashboard"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:background="@color/cardview_light_background"
-    tools:context="com.example.b.expensewatcher.DashboardActivity"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/linlay_header_dashboard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -77,46 +74,39 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <FrameLayout
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_dashboard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/activity_vertical_smallmargin"
-        android:layout_gravity="center">
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|bottom"
-            android:tint="@android:color/white"
-            app:backgroundTint="@color/shapeGreen"
-            app:srcCompat="@android:drawable/ic_input_add" />
-    </FrameLayout>
-
-    <FrameLayout
+        android:layout_below="@+id/linlay_header_dashboard"
+        android:layout_centerHorizontal="true"
+        android:tint="@android:color/white"
+        app:backgroundTint="@color/shapeGreen"
+        app:srcCompat="@android:drawable/ic_input_add" />
+    <LinearLayout
+        android:id="@+id/linlay_rv_dashboard"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin">
-
+        android:layout_height="match_parent"
+        android:weightSum="1"
+        android:layout_below="@+id/fab_dashboard"
+        android:layout_above="@+id/linlay_adView_dashboard"
+        android:orientation="vertical">
         <android.support.v7.widget.RecyclerView
             android:id="@+id/dashboard_expenses_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
             android:background="@color/transparent" />
-
-    </FrameLayout>
-
-    <com.google.android.gms.ads.AdView
-        xmlns:ads="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/adView"
-        android:layout_width="wrap_content"
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linlay_adView_dashboard"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|bottom"
-        ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
-
-    </com.google.android.gms.ads.AdView>
-
-
-</LinearLayout>
+        android:background="@color/colorWhite"
+        android:gravity="center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:paddingTop="@dimen/activity_vertical_smallmargin"
+        android:orientation="vertical">
+    </LinearLayout>
+</RelativeLayout>
