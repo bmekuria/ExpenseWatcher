@@ -4,8 +4,6 @@
     package="com.example.b.expensewatcher">
 
     <uses-sdk
-        android:minSdkVersion="15"
-        android:targetSdkVersion="25"
         tools:overrideLibrary="android.support.v7.leanback" />
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -44,7 +42,8 @@
             android:label="TransactionActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:theme="@style/Green" />
         <activity
             android:name=".pieChartActivity"
             android:label="@string/pieChartActivity"

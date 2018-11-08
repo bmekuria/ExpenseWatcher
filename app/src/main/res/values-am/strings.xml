@@ -70,5 +70,6 @@
     <string name="date">DATE</string>
     <string name="err_msg_enterdate">ENTER DATE</string>
     <string name="clearskies">CLEARSKIES</string>
-    <string name="app_version">1.0.0</string>
+    <string name="perdayin">PER DAY IN</string>
+    <string name="permonthin">PER MONTH IN</string>
 </resources>
