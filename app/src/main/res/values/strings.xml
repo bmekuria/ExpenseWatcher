@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">ExpenseWatcher</string>
+    <string name="app_name" translatable="false">JUST A CENT</string>
     <string name="title_activity_dashboard" translatable="false">DashboardActivity</string>
     <string name="title_activity_transaction" translatable="false">TransactionsActivity</string>
     <!-- Key name for Dashboard Activity -->
@@ -104,6 +104,7 @@
     <string name="enter_passcode">Enter your passcode</string>
     <string name="enter_current_passcode">Enter Current Passcode</string>
     <string name="enter_new_passcode">Enter New Passcode</string>
+    <string name="default_password">DEFAULT: 1234</string>
     <string name="success">SUCCESS</string>
     <string name="text_extendedversion">This feature will be available in the next update.</string>
     <string name="enter_expense_header">Enter Expenses</string>
@@ -146,7 +147,6 @@
     <string name="title_activity_feed_back_form">FeedBackForm</string>
     <string name="feedback_issue_title">Select your issue</string>
     <string name="feedback_issue_optional">Add more details about your issue (Optional)</string>
-    <string name="default_password">Default password: 1234</string>
     <string name="dateformat">dd/mm/yyyy</string>
     <string name="err_msg_enterdate">ENTER DATE</string>
     <string name="clearskies">CLEARSKIES</string>

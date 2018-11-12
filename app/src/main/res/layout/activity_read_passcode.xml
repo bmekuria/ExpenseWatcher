@@ -1,45 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="@color/shapeGreen"
     android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".ReadPasscode">
 
+
     <TextView
+        android:id="@+id/tv_header_readpasscode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/enter_passcode"
-        android:text="@string/enter_passcode"
-        android:textAlignment="center"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:textSize="@dimen/slide_title"/>
+        android:gravity="center_vertical"
+        android:text="TEST"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Title"
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_defaultpasswd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="209dp"
+        android:text="@string/default_password"
+        android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"
+        android:textColor="@color/colorWhite" />
+
+    <ImageView
+        android:id="@+id/iv_lock"
+        android:layout_width="78dp"
+        android:layout_height="74dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="89dp"
+        android:src="@drawable/ic_screen_lock" />
 
     <com.alimuzaffar.lib.pin.PinEntryEditText
+        android:id="@+id/pinEntry_readPasscode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:id="@+id/pinEntry_readPasscode"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center_vertical"
+        android:layout_marginTop="190dp"
         android:cursorVisible="false"
         android:digits="1234567890"
         android:inputType="numberPassword"
         android:maxLength="4"
+        android:textColor="@color/colorWhite"
         android:textIsSelectable="false"
         android:textSize="20sp"
-        app:pinLineStroke="2dp"/>
+        app:pinLineColors="@color/colorWhite"
+        app:pinLineStroke="2dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/default_password" />
 
-</LinearLayout>
+</RelativeLayout>

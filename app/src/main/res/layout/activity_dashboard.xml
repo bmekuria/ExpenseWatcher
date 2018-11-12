@@ -9,7 +9,8 @@
         android:id="@+id/relLayout_dashboardheader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/activity_vertical_margin">
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:background="@color/shapeGreen">
 
         <TextView
             android:id="@+id/dashboard_title_header"
@@ -17,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#fff"
+            android:textColor="@color/colorWhite"
             android:textStyle="bold" />
         <ImageButton
             android:id="@+id/analyzeButton"
@@ -26,8 +27,8 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="8dp"
-            android:background="@null"
-            android:src="@android:drawable/ic_menu_view" />
+            android:background="@color/transparent"
+            android:src="@drawable/ic_equalizer" />
 
         <ImageButton
             android:id="@+id/settingsButton"
@@ -37,7 +38,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
             android:background="@null"
-            android:src="@android:drawable/ic_menu_manage" />
+            android:src="@drawable/ic_settings_applications" />
 
     </RelativeLayout>
 

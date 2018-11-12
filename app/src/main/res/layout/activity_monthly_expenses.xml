@@ -3,35 +3,63 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_above="@+id/linlay_adView_monthlyexpenses"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
-    tools:context=".MonthlyExpensesActivity">
+    android:paddingBottom="@dimen/activity_vertical_margin">
 
-    <android.support.v7.widget.RecyclerView
+    <RelativeLayout
+        android:id="@+id/rellayout_header_monthlyexpensesactivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:background="@color/shapeGreen">
+        <ImageButton
+            android:id="@+id/ib_Back_monthlyexpensesactivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="25dp"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_arrow_back" />
+        <TextView
+            android:id="@+id/tv_header_monthlyexpensesactivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_vertical"
+            android:paddingBottom="@dimen/activity_vertical_margin"/>
+    </RelativeLayout>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/monthly_expenses_per_category_list"
-        >
-    </android.support.v7.widget.RecyclerView>
+        android:layout_above="@+id/linlay_adView_monthlyexpenses"
+        android:orientation="vertical"
+        android:layout_below="@+id/rellayout_header_monthlyexpensesactivity"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context=".MonthlyExpensesActivity">
 
-</LinearLayout>
-<LinearLayout
-    android:id="@+id/linlay_adView_monthlyexpenses"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
-    android:layout_alignParentBottom="true"
-    android:paddingTop="@dimen/activity_vertical_smallmargin"
-    android:orientation="vertical">
-</LinearLayout>
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/monthly_expenses_per_category_list">
+        </android.support.v7.widget.RecyclerView>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linlay_adView_monthlyexpenses"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:paddingTop="@dimen/activity_vertical_smallmargin"
+        android:orientation="vertical">
+    </LinearLayout>
 </RelativeLayout>

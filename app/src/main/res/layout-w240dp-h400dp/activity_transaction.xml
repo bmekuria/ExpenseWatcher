@@ -9,7 +9,8 @@
     <RelativeLayout
         android:id="@+id/reLayout_transactionheader"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:background="@color/shapeGreen">
 
         <TextView
             android:id="@+id/transaction_title_header"
@@ -17,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#fff"
+            android:textColor="@color/colorWhite"
             android:textStyle="bold" />
 
         <ImageButton

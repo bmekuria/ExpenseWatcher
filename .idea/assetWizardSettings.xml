@@ -19,8 +19,9 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="C:\Users\B\Pictures\CLEARSKIES\res\baseline-rate_review-android-black\res\drawable-hdpi\baseline_rate_review_black_48.png" />
-                                      <entry key="outputName" value="ic_icon_rate" />
+                                      <entry key="imageAsset" value="C:\Users\B\Pictures\icons\saving-icon.png" />
+                                      <entry key="outputName" value="savings" />
+                                      <entry key="themeColor" value="ffffff" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -88,7 +89,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputIconType" value="LAUNCHER_LEGACY" />
+                            <entry key="outputIconType" value="ACTIONBAR" />
                           </map>
                         </option>
                       </PersistentState>
