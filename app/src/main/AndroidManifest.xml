@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.b.expensewatcher">
 
-    <uses-sdk
-        tools:overrideLibrary="android.support.v7.leanback" />
+    <uses-sdk tools:overrideLibrary="android.support.v7.leanback" />
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -42,8 +41,8 @@
             android:label="TransactionActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden"
-            android:theme="@style/Green" />
+            android:theme="@style/Green"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".pieChartActivity"
             android:label="@string/pieChartActivity"
@@ -146,6 +145,7 @@
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

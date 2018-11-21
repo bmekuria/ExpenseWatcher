@@ -7,7 +7,6 @@
     <string name="category">ምድብ</string>
     <string name="change_passcode">የይለፍ ኮድ ይለውጡ</string>
     <string name="configure">ውቅረት</string>
-    <string name="confirm_passcode">የይለፍ ኮድ ማረጋገጥ 6 ቁምፊዎች ነው</string>
     <string name="confirmdel">ሰርዝን አረጋግጥ</string>
     <string name="dashboard">ExpenseWatcher</string>
     <string name="delete">ሰርዝ</string>
@@ -16,11 +15,8 @@
     <string name="error">" ስህተት"</string>
     <string name="exit">" ሰርዝ"</string>
     <string name="expenses_by_category">ወጪዎች በምድብ</string>
-    <string name="income">" ገቢ"</string>
     <string name="msg_correct_passcode">ትክክለኛውን የይለፍ ቃል</string>
     <string name="msg_wrong_passcode">የተሳሳተ የይለፍ ቃል</string>
-    <string name="new_passcode">አዲስ የይለፍ ቃል 6 ቁምፊዎች</string>
-    <string name="old_passcode">የቀድሞው የይለፍ ኮድ 6 ቁምፊዎች</string>
     <string name="ok">እሺ</string>
     <string name="pref_account_main_label">ዋና ሂሳብ</string>
     <string name="pref_account_sec_label">ሁለተኛ ሂሳብ</string>
@@ -34,7 +30,6 @@
     <string name="enter_new_passcode">አዲስ የይለፍ ኮድ ያስገቡ</string>
     <string name="enter_passcode">የይለፍ ኮድዎን ያስገቡ</string>
     <string name="expenditures">ወጪዎች</string>
-    <string name="expense_amount">የወጪ ገንዘብ መጠን</string>
     <string name="expense_name">የወጪ ስም</string>
     <string name="expensedel">ወጪው ተሰርዟል</string>
     <string name="expenses_per_month">ወጪዎች በወር</string>
@@ -72,4 +67,5 @@
     <string name="clearskies">CLEARSKIES</string>
     <string name="perdayin">PER DAY IN</string>
     <string name="permonthin">PER MONTH IN</string>
+    <string name="income">ገቢ</string>
 </resources>

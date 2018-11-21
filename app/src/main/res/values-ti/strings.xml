@@ -25,7 +25,6 @@
     <string name="pref_choose_account">መፍለዪ ምረጹ</string>
     <string name="analyze">ኽንትንትን</string>
     <string name="enter_expense_header">ወጻኢ ኣእተወ</string>
-    <string name="expense_amount">ዓቐን ኣእተወ</string>
     <string name="expense_name">ስም ኣእተወ</string>
     <string name="notification_content_title">Add your expenses</string>
     <string name="notification_content_text">Log in your daily expenses</string>

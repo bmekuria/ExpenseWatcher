@@ -60,7 +60,7 @@
     <string name="title_about">About</string>
     <string name="title_manage_categories">Manage Categories</string>
     <string name="title_export">Export to</string>
-    <string name="title_privacy_policy" translatable="false">Privacy Policy</string>
+    <string name="title_privacy_policy">Privacy Policy</string>
     <string name="title_welcome_slider">Welcome Slider</string>
 
     <string name="pref_choose_account">Choose Account</string>
@@ -147,7 +147,7 @@
     <string name="title_activity_feed_back_form">FeedBackForm</string>
     <string name="feedback_issue_title">Select your issue</string>
     <string name="feedback_issue_optional">Add more details about your issue (Optional)</string>
-    <string name="dateformat">dd/mm/yyyy</string>
+    <string name="dateformat" translatable="false">dd/mm/yyyy</string>
     <string name="err_msg_enterdate">ENTER DATE</string>
     <string name="clearskies">CLEARSKIES</string>
     <string name="app_version" translatable="false">1.0.0</string>
