@@ -2,8 +2,7 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/app/build.gradle" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/example/b/expensewatcher/About.java" charset="UTF-16" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/example/b/expensewatcher/AboutWebViewClient.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/example/b/expensewatcher/About.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/example/b/expensewatcher/CategoryMonthlyActivity.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/example/b/expensewatcher/ChangePasscode.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/example/b/expensewatcher/EditCategory.java" charset="UTF-8" />
@@ -21,7 +20,6 @@
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/example/b/expensewatcher/models/FeedBackChoices.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/example/b/expensewatcher/models/RecyclerViewCategory.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/example/b/expensewatcher/models/User.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/res/localCategory_query" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/build.gradle" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
